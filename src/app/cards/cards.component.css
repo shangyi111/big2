@@ -1,0 +1,36 @@
+.cards {
+	position: relative;
+	white-space: nowrap;
+	top:70%;
+	left:2.5%;
+	display: flex;
+	font-size: smaller;
+}
+
+.playerCards{
+	width: 85%;
+	height: 72%;
+	left:11.5%;
+}
+
+
+
+.leftCards {
+	transform: rotate(90deg);
+	width: 85%;
+	height: 43%;
+}
+
+.rightCards {
+	transform: rotate(-90deg);
+	width: 85%;
+	height: 43%;
+	top:13em;
+}
+
+.topCards {
+	width: 85%;
+	height: 105%;
+	left:11.5%;
+}
+

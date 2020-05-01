@@ -1,0 +1,11 @@
+<div class="card {{this.cardPlayer? 'playerCard' : ''}} {{this.selected? 'selectedCard' : ''}}" style="color:{{this.getColor()}}" > 
+	<div class="top" >
+		<span ><b>{{this.getValueIcon()}}</b></span>
+		<span>{{this.getSuitIcon()}}</span>
+	</div>
+	<h1>{{this.getSuitIcon()}}</h1>
+	<div class="bottom">
+		<span>{{this.getSuitIcon()}}</span>
+		<span><b>{{this.getValueIcon()}}</b></span>
+	</div>
+</div>

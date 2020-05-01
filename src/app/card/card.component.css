@@ -1,0 +1,50 @@
+.card {
+  /* Add shadows to create the "card" effect */
+  box-shadow:0 8px 16px 0 rgba(0,0,0.6,0.6);
+  transition: 0.3s;
+  width: 450%;
+  height: 100%;
+  padding:5%;
+  margin: auto;
+  border-radius: 5px;
+  background: white;
+  display: block;
+  /*transform: rotate(90deg);*/
+}
+span { display: block; }
+
+.playerCard:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  transform: translate(0,-10px);
+}
+
+.selectedCard {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  transform: translate(0,-10px);
+}
+
+.card h1{
+  text-align: center;
+  font-size: 200%;
+  margin:30%;
+  position: inherit;
+}
+
+.top{
+  text-align: left;
+  font-size: 100%;
+  position: inherit;
+
+}
+
+
+.bottom{
+  text-align: right;
+  font-size: 100%;
+  position: inherit;
+
+}
+
+
+
+
