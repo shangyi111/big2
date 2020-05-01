@@ -12,7 +12,7 @@ export class CardComponent  {
 	@Input() cardPlayer: boolean;
 	@Input() selected: boolean;
 
-	private static SUIT = ["1","2","3","4"];
+	private static SUIT = ["♦","♣","♥","♠"];
 
 
 	
