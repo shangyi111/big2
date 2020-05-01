@@ -1,0 +1,98 @@
+.container-auto {
+  width: 700px;
+  height: 700px;
+  position: absolute;
+  background-color: green;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+.placeholder{
+
+    width: 100px;
+    height: 100px;
+
+    transform: scale(.80) translate(200%,75%);
+}
+.one{
+	background: red; 
+	height: 20%; 
+	width: 20%;
+}
+
+.two{
+ 	background: yellow;
+ 	height: 20%; 
+ 	width: 60%
+}
+
+.three{
+	background: red;
+	height: 20%; 
+	width: 20%
+}
+
+.four{
+	background: yellow;
+	height: 50%; 
+	width: 20%;
+}
+
+.five{
+	background: red;
+	height: 50%; 
+	width: 60%
+}
+
+.six{
+	background: yellow;
+	height: 50%; 
+	width: 20%;
+}
+
+.seven{
+	background: red;
+	height: 30%; 
+	width: 20%;
+}
+
+.eight{
+	background: yellow;
+	height: 30%; 
+	width: 60%
+}
+
+.nine{
+	background: red;
+	height: 30%; 
+	width: 20%;
+}
+
+.play{
+	
+	transform: translate(100%,207%);
+	border: none;
+	color: gray;
+	padding: 10px 20px;
+	text-align: center;
+	font-size: 200%; 
+	cursor: pointer;
+	font-family: monospace;
+	font-weight: bolder;
+}
+
+.pass{
+	
+	transform: translate(122%,206%);
+	border: none;
+	color: gray;
+	padding: 10px 20px;
+	text-align: center;
+	font-size: 200%; 
+	cursor: pointer;
+	font-family: monospace;
+	font-weight: bolder;
+}
+
+
