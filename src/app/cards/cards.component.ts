@@ -27,6 +27,7 @@ export class CardsComponent {
 	}
 
 	clickHandler(event) {
+		if (!this.player) return;
 		const rootNode = event.currentTarget;
 		const children = rootNode.childNodes;
 		let selectedIdx = 0;
