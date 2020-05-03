@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 
 @Component({
@@ -11,6 +11,8 @@ export class CardComponent  {
 	@Input('suit') suit: number;
 	@Input() cardPlayer: boolean;
 	@Input() selected: boolean;
+
+	@Output() select = new EventEmitter();
 
 	private static SUIT = ["♦","♣","♥","♠"];
 
@@ -33,4 +35,11 @@ export class CardComponent  {
 		else return this.value;
  	}
 
+ 	onClick() {
+ 		if (!this.cardPlayer) return;
+ 		this.select.emit({
+ 			suit: this.suit,
+ 			value: this.value,
+ 		})
+ 	}
 }

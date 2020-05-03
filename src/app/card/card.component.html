@@ -1,4 +1,4 @@
-<div class="card {{this.cardPlayer? 'playerCard' : ''}} {{this.selected? 'selectedCard' : ''}}" style="color:{{this.getColor()}}" > 
+<div class="card {{this.cardPlayer? 'playerCard' : ''}} {{this.selected? 'selectedCard' : ''}}" style="color:{{this.getColor()}}" (click)="onClick()" > 
 	<div class="top" >
 		<span ><b>{{this.getValueIcon()}}</b></span>
 		<span>{{this.getSuitIcon()}}</span>

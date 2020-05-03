@@ -14,7 +14,7 @@ export class AppComponent {
   right=[];
   top=[];
   player=[];
-  seleted=[];
+  selectedCardIds=[];
 
   constructor() {
   	this.gameStart();
@@ -71,8 +71,8 @@ export class AppComponent {
   	this.player.sort((a,b) => a - b);
   }
 
-  selectedCards(){
-  	// this.seleted.push(click.....)
+  getPlayerSelectedCards(selectedCardIds) {
+  	this.selectedCardIds = selectedCardIds;
   }
 
   

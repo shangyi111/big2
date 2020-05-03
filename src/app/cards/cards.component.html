@@ -1,5 +1,5 @@
-<div class="cards {{this.left ? 'leftCards' : ''}} {{this.right? 'rightCards' : ''}} {{this.top? 'topCards' : ''}} {{this.player? 'playerCards' : ''}}" (click)="clickHandler($event)">
+<div class="cards {{this.left ? 'leftCards' : ''}} {{this.right? 'rightCards' : ''}} {{this.top? 'topCards' : ''}} {{this.player? 'playerCards' : ''}}">
 	<div class="card-container" *ngFor="let card of getCards(); let i = index" > 
-		<card [value]="card.value" [suit]="card.suit" [cardPlayer]="player" [selected]="selecteds[i]"></card>
+		<card [value]="card.value" [suit]="card.suit" [cardPlayer]="player" [selected]="selecteds[i]" (select)="selectCard($event)"></card>
 	</div>
 </div>

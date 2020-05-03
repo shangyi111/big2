@@ -1,5 +1,5 @@
 import { CardComponent } from './../card/card.component';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { getCardById } from '../cards';
 
 @Component({
@@ -14,6 +14,7 @@ export class CardsComponent {
 	@Input() left: boolean = false;
 	@Input() right: boolean = false;
 	@Input() player: boolean = false;
+	@Output() change = new EventEmitter();
 	selecteds: boolean[] = [];
 
 
@@ -21,33 +22,23 @@ export class CardsComponent {
 		const cards = [];
 		for(let i of this.cardIds) {
 			cards.push(getCardById(Number(i)));
-			this.selecteds.push(false);
 		}
 		return cards;
 	}
 
-	clickHandler(event) {
-		if (!this.player) return;
-		const rootNode = event.currentTarget;
-		const children = rootNode.childNodes;
-		let selectedIdx = 0;
-		for(const child of children) {
-		    if (this.isDescendant(child, event.target)) break;
-		    selectedIdx += 1;
-		};
-		this.selecteds[selectedIdx] = !this.selecteds[selectedIdx];
-		console.log(event);
-	}
-
-	isDescendant(parent, child) {
-     let node = child.parentNode;
-     while (node != null) {
-         if (node === parent) {
-             return true;
-         }
-         node = node.parentNode;
-     }
-     return false;
+	selectCard(cardData) {
+		console.log(cardData);
+		const selectedIndex = this.getCards().findIndex(function(card) {
+			return card.suit === cardData.suit && card.value === cardData.value;
+		});
+		this.selecteds[selectedIndex] = !this.selecteds[selectedIndex];
+		
+		const selectedCardIds = [];
+		for(const i in this.cardIds) {
+			if (this.selecteds[i]) selectedCardIds.push(this.cardIds[i]);
+		}
+		this.change.emit(selectedCardIds);
+		console.log(this.selecteds);
 	}
 
 }

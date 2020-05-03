@@ -13,7 +13,7 @@
   </div>
   <div class="five" >5
     <div class="placeholder">
-      <cards [cardIds] = [1]></cards>
+      <cards [cardIds] = "this.selectedCardIds"></cards>
     </div>
     <div class="buttons">
       <button type="submit" class="play"> PLAY </button>
@@ -26,7 +26,7 @@
   </div>
   <div class="seven" >7</div>
   <div class="eight" > 
-    <cards [cardIds]="this.player" [player]="true" >
+    <cards [cardIds]="this.player" [player]="true" (change)="getPlayerSelectedCards($event)">
     </cards>
   </div>
   
