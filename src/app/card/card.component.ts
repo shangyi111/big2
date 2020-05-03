@@ -9,8 +9,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class CardComponent  {
 	@Input('value') value: number;
 	@Input('suit') suit: number;
-	@Input() cardPlayer: boolean;
-	@Input() selected: boolean;
+	@Input() isPlayer: boolean; 
+	@Input() selected: boolean;   //selected cards
 
 	@Output() select = new EventEmitter();
 
@@ -36,7 +36,7 @@ export class CardComponent  {
  	}
 
  	onClick() {
- 		if (!this.cardPlayer) return;
+ 		if (!this.isPlayer) return;
  		this.select.emit({
  			suit: this.suit,
  			value: this.value,

@@ -69,9 +69,9 @@
 	width: 20%;
 }
 
-.play{
+.submit{
 	
-	transform: translate(100%,207%);
+	transform: translate(40%,206%);
 	border: none;
 	color: gray;
 	padding: 10px 20px;

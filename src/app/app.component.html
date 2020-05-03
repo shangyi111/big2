@@ -13,10 +13,10 @@
   </div>
   <div class="five" >5
     <div class="placeholder">
-      <cards [cardIds] = "this.playCards ? this.selectedCardIds : []"></cards>
+      <cards [cardIds] = "this.playCards ? this.submittedCardIds : []"></cards>
     </div>
     <div class="buttons">
-      <button type="submit" class="play" (click)="clickPlayHandler()"> PLAY </button>
+      <button type="submit" class="submit" (click)="clickSubmitHandler()"> SUBMIT </button>
       <button type="submit" class="pass"> PASS </button>
     </div>
   </div>
@@ -26,7 +26,7 @@
   </div>
   <div class="seven" >7</div>
   <div class="eight" > 
-    <cards [cardIds]="this.player" [player]="true" (change)="getPlayerSelectedCards($event)">
+    <cards [cardIds]="this.player" [player]="true" (playerSelectedCards)="getPlayerSelectedCards($event)">
     </cards>
   </div>
   

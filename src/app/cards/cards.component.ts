@@ -14,7 +14,7 @@ export class CardsComponent {
 	@Input() left: boolean = false;
 	@Input() right: boolean = false;
 	@Input() player: boolean = false;
-	@Output() change = new EventEmitter();
+	@Output() playerSelectedCards = new EventEmitter();
 	selecteds: boolean[] = [];
 
 
@@ -43,15 +43,25 @@ export class CardsComponent {
 		return this.selecteds[cardId];
 	}
 
-	selectCard(cardData) {
+	generateSelectedCardIds(cardData) {
 		const cardId = (cardData.value) * 4 + cardData.suit;
+		// set selected cardId to true
 		this.selecteds[cardId] = !this.selecteds[cardId];
 		
+		// push all selected cardId into selectedCardIds
 		const selectedCardIds = [];
 		for(const i in this.selecteds) {
 			if (this.selecteds[i]) selectedCardIds.push(Number(i));
 		}
-		this.change.emit(selectedCardIds);
+		return selectedCardIds;
 	}
+
+	emitSelectedCardIds(cardData){
+		// emit selectedCardIds to the center placeholder
+		this.playerSelectedCards.emit(this.generateSelectedCardIds(cardData));
+	}
+
+		
+	
 
 }

@@ -14,7 +14,7 @@ export class AppComponent {
   right=[];
   top=[];
   player=[];
-  selectedCardIds=[];
+  submittedCardIds=[];
   playCards: boolean;
 
   constructor() {
@@ -72,13 +72,14 @@ export class AppComponent {
   	this.player = this.player.sort((a,b) => a - b);
   }
 
-  clickPlayHandler(){
-  	this.playCards = !this.playCards;
-  	this.player = this.player.filter((card) => !this.selectedCardIds.includes(card));
+  clickSubmitHandler(){
+  	this.playCards = !this.playCards;  //what this means?
+  	this.player = this.player.filter((each) => !this.submittedCardIds.includes(each));
+  	//update player cards by taking out submitted cards
   }
 
   getPlayerSelectedCards(selectedCardIds) {
-  	this.selectedCardIds = selectedCardIds;
+  	this.submittedCardIds = selectedCardIds;
   }
 
 
