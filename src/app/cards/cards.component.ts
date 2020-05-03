@@ -23,22 +23,35 @@ export class CardsComponent {
 		for(let i of this.cardIds) {
 			cards.push(getCardById(Number(i)));
 		}
+		console.log(this.selecteds);
+		if (this.player) {
+			for (let i in this.selecteds) {
+				console.log(i);
+				if(!this.cardIds.includes(Number(i))) this.selecteds[i] = false;
+			}
+		}
+		console.log(this.selecteds);
 		return cards;
 	}
 
+	// isSelected(i) {
+	// 	return this.selecteds[i];
+	// }
+
+	isSelected(cardData) {
+		const cardId = (cardData.value) * 4 + cardData.suit;
+		return this.selecteds[cardId];
+	}
+
 	selectCard(cardData) {
-		console.log(cardData);
-		const selectedIndex = this.getCards().findIndex(function(card) {
-			return card.suit === cardData.suit && card.value === cardData.value;
-		});
-		this.selecteds[selectedIndex] = !this.selecteds[selectedIndex];
+		const cardId = (cardData.value) * 4 + cardData.suit;
+		this.selecteds[cardId] = !this.selecteds[cardId];
 		
 		const selectedCardIds = [];
-		for(const i in this.cardIds) {
-			if (this.selecteds[i]) selectedCardIds.push(this.cardIds[i]);
+		for(const i in this.selecteds) {
+			if (this.selecteds[i]) selectedCardIds.push(Number(i));
 		}
 		this.change.emit(selectedCardIds);
-		console.log(this.selecteds);
 	}
 
 }

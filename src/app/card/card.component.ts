@@ -28,11 +28,11 @@ export class CardComponent  {
 	}
 
 	getValueIcon(){
-		if(this.value === 1) return "A";
-		if(this.value === 11) return "J";
-		if(this.value === 12) return "Q";
-		if(this.value === 13) return "K";
-		else return this.value;
+		if(this.value === 0) return "A";
+		if(this.value === 10) return "J";
+		if(this.value === 11) return "Q";
+		if(this.value === 12) return "K";
+		else return this.value + 1;
  	}
 
  	onClick() {

@@ -13,10 +13,10 @@
   </div>
   <div class="five" >5
     <div class="placeholder">
-      <cards [cardIds] = "this.selectedCardIds"></cards>
+      <cards [cardIds] = "this.playCards ? this.selectedCardIds : []"></cards>
     </div>
     <div class="buttons">
-      <button type="submit" class="play"> PLAY </button>
+      <button type="submit" class="play" (click)="clickPlayHandler()"> PLAY </button>
       <button type="submit" class="pass"> PASS </button>
     </div>
   </div>

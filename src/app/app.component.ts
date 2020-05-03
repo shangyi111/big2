@@ -15,6 +15,7 @@ export class AppComponent {
   top=[];
   player=[];
   selectedCardIds=[];
+  playCards: boolean;
 
   constructor() {
   	this.gameStart();
@@ -53,28 +54,35 @@ export class AppComponent {
   	for(let i=0; i<13; i++){
   		this.top.push(newArray[i]);
   	}
-  	this.top.sort((a,b) => a - b);
+  	this.top = this.top.sort((a,b) => a - b);
   	
   	for(let i=13; i<26; i++){
   		this.left.push(newArray[i]);
   	}
-  	this.left.sort((a,b) => a - b);
+  	this.left = this.left.sort((a,b) => a - b);
 
   	for(let i=26; i<39; i++){
   		this.right.push(newArray[i]);
   	}
-  	this.right.sort((a,b) => a - b);
+  	this.right = this.right.sort((a,b) => a - b);
 
   	for(let i=39; i<52; i++){
   		this.player.push(newArray[i]);
   	}
-  	this.player.sort((a,b) => a - b);
+  	this.player = this.player.sort((a,b) => a - b);
+  }
+
+  clickPlayHandler(){
+  	this.playCards = !this.playCards;
+  	this.player = this.player.filter((card) => !this.selectedCardIds.includes(card));
   }
 
   getPlayerSelectedCards(selectedCardIds) {
   	this.selectedCardIds = selectedCardIds;
   }
 
+
+ 
   
 }
 
