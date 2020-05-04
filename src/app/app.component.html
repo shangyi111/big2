@@ -1,36 +1,36 @@
 <!-- <cards [cards]="[new Card(1,0), new Card(1,0)]" [orientation]="0" ><cards> -->
 <!-- <cards [cardIds]="[0,2,4,6,1,12,3,16,9,10,21,24]" style="display: inline-block;z-index: 0"></cards><br> -->
 <div class="container-auto">
-	<div class="one" >1</div>
+	<div class="one" ></div>
   <div class="two" >
-  	<cards [cardIds]="this.players[2]" [playerId]="2"> 
+  	<cards [cardIds]="this.players[2]" [playerId]="2" [isActive]="activeAt === 2"> 
     </cards>
   </div>
-  <div class="three" >3</div>
+  <div class="three" ></div>
   <div class="four">
-  	<cards [cardIds]="this.players[1]" [playerId]="1" > 
+  	<cards [cardIds]="this.players[1]" [playerId]="1" [isActive]="activeAt === 1"> 
     </cards>
   </div>
-  <div class="five" >5
+  <div class="five" >
     <div class="placeholder">
-      <cards [cardIds] = "this.playCards ? this.submittedCardIds : []"></cards>
+      <cards [cardIds] = "this.submittedCardIds" [isActive]="true"></cards>
     </div>
     <div class="buttons">
-      <button type="submit" class="submit" (click)="clickSubmitHandler()"> SUBMIT </button>
-      <button type="submit" class="pass"> PASS </button>
+      <button type="submit" class="submit" (click)="clickSubmitHandler()" [hidden]="activeAt > 0"> SUBMIT </button>
+      <button type="submit" class="pass" [hidden]="activeAt > 0"> PASS </button>
     </div>
   </div>
-  <div class="six" >6
-  	<cards [cardIds]="this.players[3]" [playerId]="3" > 
+  <div class="six" >
+  	<cards [cardIds]="this.players[3]" [playerId]="3" [isActive]="activeAt === 3"> 
     </cards>
   </div>
-  <div class="seven" >7</div>
+  <div class="seven" ></div>
   <div class="eight" > 
-    <cards [cardIds]="this.players[0]" [playerId]="0" (playerSelectedCards)="getPlayerSelectedCards($event)">
+    <cards [cardIds]="this.players[0]" [playerId]="0" (playerSelectedCards)="getPlayerSelectedCards($event)" [isActive]="activeAt === 0">
     </cards>
   </div>
   
-  <div class="nine">9</div>
+  <div class="nine"></div>
 </div>
 
 

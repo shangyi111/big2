@@ -1,4 +1,4 @@
-<div class="cards {{this.getPlayerSide()}}">
+<div class="cards {{this.getPlayerSide()}} {{this.isActive ? 'active' : 'inactive'}}">
 	<div class="card-container" *ngFor="let card of getCards(); let i = index" > 
 		<card 
 		[value]="card.value" 

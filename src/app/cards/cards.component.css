@@ -7,6 +7,14 @@
 	font-size: smaller;
 }
 
+.inactive {
+	opacity: 70%;
+}
+
+.active {
+	opacity: 100%;
+}
+
 .downCards{
 	width: 85%;
 	height: 72%;

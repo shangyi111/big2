@@ -11,8 +11,9 @@ export class AppComponent {
 
   title = 'big2';
   players = [[], [], [], []];
+  activeAt = 0;
   submittedCardIds=[];
-  playCards: boolean;
+  isPlayCards: boolean;
 
   constructor() {
   	this.gameStart();
@@ -21,21 +22,21 @@ export class AppComponent {
   shuffle(array: number[]){
 
   	let currentIndex = array.length;
-	let temporaryValue, randomIndex;
+  	let temporaryValue, randomIndex;
 
-	// While there remain elements to shuffle...
-	while (0 !== currentIndex) {
-		// Pick a remaining element...
-		randomIndex = Math.floor(Math.random() * currentIndex);
-		currentIndex -= 1;
+  	// While there remain elements to shuffle...
+  	while (0 !== currentIndex) {
+  		// Pick a remaining element...
+  		randomIndex = Math.floor(Math.random() * currentIndex);
+  		currentIndex -= 1;
 
-		// And swap it with the current element.
-		temporaryValue = array[currentIndex];
-		array[currentIndex] = array[randomIndex];
-		array[randomIndex] = temporaryValue;
-	}
+  		// And swap it with the current element.
+  		temporaryValue = array[currentIndex];
+  		array[currentIndex] = array[randomIndex];
+  		array[randomIndex] = temporaryValue;
+  	}
 
-	return array;
+  	return array;
   }  
 
 
@@ -48,31 +49,36 @@ export class AppComponent {
 
   	const newArray = this.shuffle(array);
   	
-  	for(let i=0; i<13; i++){
-  		this.players[2].push(newArray[i]);
-  	}
-  	this.players[2] = this.players[2].sort((a,b) => a - b);
-  	
-  	for(let i=13; i<26; i++){
-  		this.players[1].push(newArray[i]);
-  	}
-  	this.players[1] = this.players[1].sort((a,b) => a - b);
-
-  	for(let i=26; i<39; i++){
-  		this.players[3].push(newArray[i]);
-  	}
-  	this.players[3] = this.players[3].sort((a,b) => a - b);
-
-  	for(let i=39; i<52; i++){
-  		this.players[0].push(newArray[i]);
-  	}
-  	this.players[0] = this.players[0].sort((a,b) => a - b);
+    for(let j=0; j<this.players.length; j++){
+      for(let i=j*13 ; i <((j+1)*13); i++){
+        this.players[j].push(newArray[i]);
+      }
+      this.players[j]=this.players[j].sort((a,b) => a - b);
+    }
   }
 
+  autoPlay(n, period) {
+    if (n < 0) return;
+    setTimeout(() => {
+      this.activeAt += 1
+      this.activeAt %= 4
+      // activePlayer is cards of activePlayer has
+      const activePlayer = this.players[this.activeAt];
+      if (activePlayer.length && this.activeAt > 0) {
+        const oneCard = this.players[this.activeAt].shift();
+        console.log(oneCard);
+        this.submittedCardIds = [oneCard];
+      }
+      this.autoPlay(n-1, 500);
+    }, period)
+  }
+ 
+
   clickSubmitHandler(){
-  	this.playCards = !this.playCards;  //what this means?
+  	this.isPlayCards = !this.isPlayCards;  //what this means?
   	this.players[0] = this.players[0].filter((each) => !this.submittedCardIds.includes(each));
   	//players[2]date player cards by taking out submitted cards
+    this.autoPlay(3, 0);
   }
 
   getPlayerSelectedCards(selectedCardIds) {

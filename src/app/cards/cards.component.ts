@@ -10,6 +10,7 @@ import { getCardById } from '../cards';
 export class CardsComponent {
 
 	@Input() cardIds: number[] = [];
+	@Input() isActive: boolean;
 	@Input() playerId: number;
 	@Output() playerSelectedCards = new EventEmitter();
 	selecteds: boolean[] = [];
@@ -20,14 +21,12 @@ export class CardsComponent {
 		for(let i of this.cardIds) {
 			cards.push(getCardById(Number(i)));
 		}
-		console.log(this.selecteds);
 		if (this.playerId === 0) {
 			for (let i in this.selecteds) {
 				console.log(i);
 				if(!this.cardIds.includes(Number(i))) this.selecteds[i] = false;
 			}
 		}
-		console.log(this.selecteds);
 		return cards;
 	}
 
@@ -66,7 +65,6 @@ export class CardsComponent {
 		this.playerSelectedCards.emit(this.generateSelectedCardIds(cardData));
 	}
 
-		
 	
 
 }

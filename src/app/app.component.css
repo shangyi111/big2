@@ -16,55 +16,55 @@
     transform: scale(.80) translate(200%,75%);
 }
 .one{
-	background: red; 
+	/*background: red; */
 	height: 20%; 
 	width: 20%;
 }
 
 .two{
- 	background: yellow;
+ 	/*background: yellow;*/
  	height: 20%; 
  	width: 60%
 }
 
 .three{
-	background: red;
+	/*background: red;*/
 	height: 20%; 
 	width: 20%
 }
 
 .four{
-	background: yellow;
+	/*background: yellow;*/
 	height: 50%; 
 	width: 20%;
 }
 
 .five{
-	background: red;
+	/*background: red;*/
 	height: 50%; 
 	width: 60%
 }
 
 .six{
-	background: yellow;
+	/*background: yellow;*/
 	height: 50%; 
 	width: 20%;
 }
 
 .seven{
-	background: red;
+	/*background: red;*/
 	height: 30%; 
 	width: 20%;
 }
 
 .eight{
-	background: yellow;
+	/*background: yellow;*/
 	height: 30%; 
 	width: 60%
 }
 
 .nine{
-	background: red;
+	/*background: red;*/
 	height: 30%; 
 	width: 20%;
 }
@@ -73,26 +73,43 @@
 	
 	transform: translate(40%,206%);
 	border: none;
-	color: gray;
+	color: #494949 ;
 	padding: 10px 20px;
 	text-align: center;
 	font-size: 200%; 
 	cursor: pointer;
 	font-family: monospace;
-	font-weight: bolder;
+	background-color: transparent;
+	border: 4px solid #494949;
+	border-radius: 6px;
+}
+
+.submit:hover{
+	color: #44e668!important;
+	border-radius: 50px;
+	border-color: #44e668 !important;
+	transition: all 0.2s ease 0s;
 }
 
 .pass{
-	
-	transform: translate(122%,206%);
+	transform: translate(85%,206%);
 	border: none;
-	color: gray;
+	color: #494949;
 	padding: 10px 20px;
 	text-align: center;
 	font-size: 200%; 
 	cursor: pointer;
 	font-family: monospace;
-	font-weight: bolder;
+	background-color: transparent;
+	border: 4px solid #494949;
+	border-radius: 6px;
+	
 }
 
+.pass:hover{
+	color: #44e668 !important;
+	border-radius: 50px;
+	border-color: #44e668 !important;
+	transition: all 0.2s ease 0s;
+}
 
