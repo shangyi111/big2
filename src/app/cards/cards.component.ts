@@ -10,10 +10,7 @@ import { getCardById } from '../cards';
 export class CardsComponent {
 
 	@Input() cardIds: number[] = [];
-	@Input() top: boolean = false;
-	@Input() left: boolean = false;
-	@Input() right: boolean = false;
-	@Input() player: boolean = false;
+	@Input() playerId: number;
 	@Output() playerSelectedCards = new EventEmitter();
 	selecteds: boolean[] = [];
 
@@ -24,7 +21,7 @@ export class CardsComponent {
 			cards.push(getCardById(Number(i)));
 		}
 		console.log(this.selecteds);
-		if (this.player) {
+		if (this.playerId === 0) {
 			for (let i in this.selecteds) {
 				console.log(i);
 				if(!this.cardIds.includes(Number(i))) this.selecteds[i] = false;
@@ -34,9 +31,17 @@ export class CardsComponent {
 		return cards;
 	}
 
-	// isSelected(i) {
-	// 	return this.selecteds[i];
-	// }
+	getPlayerSide() {
+		if (this.playerId === 0) {
+			return 'playerCards';
+		}else if (this.playerId === 1) {
+			return 'leftCards';
+		}else if (this.playerId === 2) {
+			return 'topCards';
+		}else if (this.playerId === 3) {
+			return 'rightCards';
+		}
+	}
 
 	isSelected(cardData) {
 		const cardId = (cardData.value) * 4 + cardData.suit;

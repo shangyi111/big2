@@ -1,13 +1,9 @@
-<div class="cards 
-{{this.left ? 'leftCards' : ''}} 
-{{this.right? 'rightCards' : ''}} 
-{{this.top? 'topCards' : ''}} 
-{{this.player? 'playerCards' : ''}}">
+<div class="cards {{this.getPlayerSide()}}">
 	<div class="card-container" *ngFor="let card of getCards(); let i = index" > 
 		<card 
 		[value]="card.value" 
 		[suit]="card.suit" 
-		[isPlayer]="player" 
+		[isPlayer]="playerId === 0" 
 		[selected]="isSelected(card)" 
 		(select)="emitSelectedCardIds($event)"></card>
 	</div>

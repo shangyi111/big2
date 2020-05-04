@@ -15,8 +15,6 @@ export class CardComponent  {
 	@Output() select = new EventEmitter();
 
 	private static SUIT = ["♦","♣","♥","♠"];
-
-
 	
 
 	getColor(): string {

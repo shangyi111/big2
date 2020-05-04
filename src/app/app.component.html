@@ -3,12 +3,12 @@
 <div class="container-auto">
 	<div class="one" >1</div>
   <div class="two" >
-  	<cards [cardIds]="this.top" [top]="true"> 
+  	<cards [cardIds]="this.top" [playerId]="2"> 
     </cards>
   </div>
   <div class="three" >3</div>
   <div class="four">
-  	<cards [cardIds]="this.left" [left]="true" > 
+  	<cards [cardIds]="this.left" [playerId]="1" > 
     </cards>
   </div>
   <div class="five" >5
@@ -21,12 +21,12 @@
     </div>
   </div>
   <div class="six" >6
-  	<cards [cardIds]="this.right" [right]="true" > 
+  	<cards [cardIds]="this.right" [playerId]="3" > 
     </cards>
   </div>
   <div class="seven" >7</div>
   <div class="eight" > 
-    <cards [cardIds]="this.player" [player]="true" (playerSelectedCards)="getPlayerSelectedCards($event)">
+    <cards [cardIds]="this.player" [playerId]="0" (playerSelectedCards)="getPlayerSelectedCards($event)">
     </cards>
   </div>
   
