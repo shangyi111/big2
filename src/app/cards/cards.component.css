@@ -7,13 +7,11 @@
 	font-size: smaller;
 }
 
-.playerCards{
+.downCards{
 	width: 85%;
 	height: 72%;
 	left:11.5%;
 }
-
-
 
 .leftCards {
 	transform: rotate(90deg);

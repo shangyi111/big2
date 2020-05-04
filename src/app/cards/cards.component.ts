@@ -33,7 +33,7 @@ export class CardsComponent {
 
 	getPlayerSide() {
 		if (this.playerId === 0) {
-			return 'playerCards';
+			return 'downCards';
 		}else if (this.playerId === 1) {
 			return 'leftCards';
 		}else if (this.playerId === 2) {

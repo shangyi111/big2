@@ -10,10 +10,7 @@ import { getCardById } from './cards';
 export class AppComponent {
 
   title = 'big2';
-  left=[];
-  right=[];
-  top=[];
-  player=[];
+  players = [[], [], [], []];
   submittedCardIds=[];
   playCards: boolean;
 
@@ -52,38 +49,34 @@ export class AppComponent {
   	const newArray = this.shuffle(array);
   	
   	for(let i=0; i<13; i++){
-  		this.top.push(newArray[i]);
+  		this.players[2].push(newArray[i]);
   	}
-  	this.top = this.top.sort((a,b) => a - b);
+  	this.players[2] = this.players[2].sort((a,b) => a - b);
   	
   	for(let i=13; i<26; i++){
-  		this.left.push(newArray[i]);
+  		this.players[1].push(newArray[i]);
   	}
-  	this.left = this.left.sort((a,b) => a - b);
+  	this.players[1] = this.players[1].sort((a,b) => a - b);
 
   	for(let i=26; i<39; i++){
-  		this.right.push(newArray[i]);
+  		this.players[3].push(newArray[i]);
   	}
-  	this.right = this.right.sort((a,b) => a - b);
+  	this.players[3] = this.players[3].sort((a,b) => a - b);
 
   	for(let i=39; i<52; i++){
-  		this.player.push(newArray[i]);
+  		this.players[0].push(newArray[i]);
   	}
-  	this.player = this.player.sort((a,b) => a - b);
+  	this.players[0] = this.players[0].sort((a,b) => a - b);
   }
 
   clickSubmitHandler(){
   	this.playCards = !this.playCards;  //what this means?
-  	this.player = this.player.filter((each) => !this.submittedCardIds.includes(each));
-  	//update player cards by taking out submitted cards
+  	this.players[0] = this.players[0].filter((each) => !this.submittedCardIds.includes(each));
+  	//players[2]date player cards by taking out submitted cards
   }
 
   getPlayerSelectedCards(selectedCardIds) {
   	this.submittedCardIds = selectedCardIds;
   }
-
-
- 
-  
 }
 

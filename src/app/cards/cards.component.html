@@ -3,7 +3,7 @@
 		<card 
 		[value]="card.value" 
 		[suit]="card.suit" 
-		[isPlayer]="playerId === 0" 
+		[isUser]="playerId === 0" 
 		[selected]="isSelected(card)" 
 		(select)="emitSelectedCardIds($event)"></card>
 	</div>
