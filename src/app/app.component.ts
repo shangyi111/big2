@@ -17,6 +17,7 @@ export class AppComponent {
   isValidStatus : boolean = false;
   submittedCardIds=[];
   isPlayCards: boolean;
+  prev=[];
 
 
   constructor() {
@@ -70,29 +71,31 @@ export class AppComponent {
       // activePlayer is cards of activePlayer has
       const activePlayer = this.players[this.activeAt];
       if (activePlayer.length && this.activeAt > 0) {
-        this.submittedCardIds = [oneCard(this.players, this.activeAt)];
+        this.submittedCardIds = [oneCard(this.players, this.activeAt,this.prev)];
+        this.prev = this.submittedCardIds;
       }
-      this.autoPlay(n-1, 500);
+      this.autoPlay(n-1, 3000);
     }, period)
   }
   
 
   getPlayerSelectedCards(selectedCardIds) {
     this.submittedCardIds = selectedCardIds;
-    this.isValidStatus = isValid(selectedCardIds);
+    this.isValidStatus = isValid(selectedCardIds,this.prev);
   }
 
   clickSubmitHandler(){
     this.isValidStatus = false;
   	this.isPlayCards = !this.isPlayCards; 
      //what this means?
-  	if(isValid(this.submittedCardIds)){
+  	if(isValid(this.submittedCardIds, this.prev)){
       this.players[0] = this.players[0].filter((each) => !this.submittedCardIds.includes(each));
+      this.prev=this.submittedCardIds;
       //players[2] player cards by taking out submitted cards
       this.autoPlay(3, 0);
     } 
 
-    else alert("Invalid selections. "); 
+
   }
 
   clickPassHandler(){
