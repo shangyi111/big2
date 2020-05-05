@@ -1,5 +1,4 @@
-<!-- <cards [cards]="[new Card(1,0), new Card(1,0)]" [orientation]="0" ><cards> -->
-<!-- <cards [cardIds]="[0,2,4,6,1,12,3,16,9,10,21,24]" style="display: inline-block;z-index: 0"></cards><br> -->
+
 <div class="container-auto">
 	<div class="one" ></div>
   <div class="two" >
@@ -13,11 +12,11 @@
   </div>
   <div class="five" >
     <div class="placeholder">
-      <cards [cardIds] = "this.submittedCardIds" [isActive]="true"></cards>
+      <cards [cardIds] = "this.submittedCardIds" [isActive]="true" ></cards>
     </div>
     <div class="buttons">
-      <button type="submit" class="submit" (click)="clickSubmitHandler()" [hidden]="activeAt > 0"> SUBMIT </button>
-      <button type="submit" class="pass" [hidden]="activeAt > 0"> PASS </button>
+      <button type="submit" class="submit" (click)="clickSubmitHandler()" [hidden]="activeAt > 0 || !this.isValidStatus"> SUBMIT</button>
+      <button type="submit" class="pass" (click)="clickPassHandler()" [hidden]="activeAt > 0"> PASS </button>
     </div>
   </div>
   <div class="six" >

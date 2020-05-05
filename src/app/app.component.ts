@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { getCardById } from './cards';
+import { isValid } from './rules';
+import { oneCard } from './AI';
 
 @Component({
   selector: 'app-root',
@@ -12,8 +14,10 @@ export class AppComponent {
   title = 'big2';
   players = [[], [], [], []];
   activeAt = 0;
+  isValidStatus : boolean = false;
   submittedCardIds=[];
   isPlayCards: boolean;
+
 
   constructor() {
   	this.gameStart();
@@ -60,29 +64,46 @@ export class AppComponent {
   autoPlay(n, period) {
     if (n < 0) return;
     setTimeout(() => {
+      console.log(this.activeAt);
       this.activeAt += 1
       this.activeAt %= 4
       // activePlayer is cards of activePlayer has
       const activePlayer = this.players[this.activeAt];
       if (activePlayer.length && this.activeAt > 0) {
-        const oneCard = this.players[this.activeAt].shift();
-        console.log(oneCard);
-        this.submittedCardIds = [oneCard];
+        this.submittedCardIds = [oneCard(this.players, this.activeAt)];
       }
       this.autoPlay(n-1, 500);
     }, period)
   }
- 
-
-  clickSubmitHandler(){
-  	this.isPlayCards = !this.isPlayCards;  //what this means?
-  	this.players[0] = this.players[0].filter((each) => !this.submittedCardIds.includes(each));
-  	//players[2]date player cards by taking out submitted cards
-    this.autoPlay(3, 0);
-  }
+  
 
   getPlayerSelectedCards(selectedCardIds) {
-  	this.submittedCardIds = selectedCardIds;
+    this.submittedCardIds = selectedCardIds;
+    this.isValidStatus = isValid(selectedCardIds);
   }
+
+  clickSubmitHandler(){
+    this.isValidStatus = false;
+  	this.isPlayCards = !this.isPlayCards; 
+     //what this means?
+  	if(isValid(this.submittedCardIds)){
+      this.players[0] = this.players[0].filter((each) => !this.submittedCardIds.includes(each));
+      //players[2] player cards by taking out submitted cards
+      this.autoPlay(3, 0);
+    } 
+
+    else alert("Invalid selections. "); 
+  }
+
+  clickPassHandler(){
+    this.autoPlay(3,0);
+  }
+  
+
+
+
+
+
+
 }
 
