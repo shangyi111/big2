@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { getCardById } from './cards';
 import { isValid } from './rules';
 import { oneCard } from './AI';
+import { gameStart } from './gameStart';
 
 @Component({
   selector: 'app-root',
@@ -16,50 +17,13 @@ export class AppComponent {
   activeAt = 0;
   isValidStatus : boolean = false;
   submittedCardIds=[];
+  selectedCardIds = [];
   isPlayCards: boolean;
-  prev=[];
+
 
 
   constructor() {
-  	this.gameStart();
-  }
-
-  shuffle(array: number[]){
-
-  	let currentIndex = array.length;
-  	let temporaryValue, randomIndex;
-
-  	// While there remain elements to shuffle...
-  	while (0 !== currentIndex) {
-  		// Pick a remaining element...
-  		randomIndex = Math.floor(Math.random() * currentIndex);
-  		currentIndex -= 1;
-
-  		// And swap it with the current element.
-  		temporaryValue = array[currentIndex];
-  		array[currentIndex] = array[randomIndex];
-  		array[randomIndex] = temporaryValue;
-  	}
-
-  	return array;
-  }  
-
-
-  gameStart(){
-  	const numberOfCards = 51;
-  	const array=[];
-  	for( let i=0; i <= numberOfCards; i++){
-  		array.push(i);
-  	}
-
-  	const newArray = this.shuffle(array);
-  	
-    for(let j=0; j<this.players.length; j++){
-      for(let i=j*13 ; i <((j+1)*13); i++){
-        this.players[j].push(newArray[i]);
-      }
-      this.players[j]=this.players[j].sort((a,b) => a - b);
-    }
+  	gameStart(51,this.players);
   }
 
   autoPlay(n, period) {
@@ -71,26 +35,28 @@ export class AppComponent {
       // activePlayer is cards of activePlayer has
       const activePlayer = this.players[this.activeAt];
       if (activePlayer.length && this.activeAt > 0) {
-        this.submittedCardIds = [oneCard(this.players, this.activeAt,this.prev)];
-        this.prev = this.submittedCardIds;
+        const card = oneCard(this.players, this.activeAt,this.submittedCardIds);
+        this.submittedCardIds = card ? [card] : this.submittedCardIds;
       }
+     
       this.autoPlay(n-1, 3000);
     }, period)
   }
   
 
   getPlayerSelectedCards(selectedCardIds) {
-    this.submittedCardIds = selectedCardIds;
-    this.isValidStatus = isValid(selectedCardIds,this.prev);
+    this.selectedCardIds = selectedCardIds;
+    this.isValidStatus = isValid(selectedCardIds, this.submittedCardIds);
   }
 
   clickSubmitHandler(){
     this.isValidStatus = false;
   	this.isPlayCards = !this.isPlayCards; 
      //what this means?
-  	if(isValid(this.submittedCardIds, this.prev)){
+  	if(isValid(this.selectedCardIds, this.submittedCardIds)){
+      this.submittedCardIds = this.selectedCardIds;
+      // this.lastSubmittedPlayerId = 
       this.players[0] = this.players[0].filter((each) => !this.submittedCardIds.includes(each));
-      this.prev=this.submittedCardIds;
       //players[2] player cards by taking out submitted cards
       this.autoPlay(3, 0);
     } 

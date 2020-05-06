@@ -4,7 +4,7 @@
 export const oneCard=(array, x, prev)=>{
 	console.log(prev);
 	if(prev.length === 1){
-		for(let i = 0 ; i <array[x].length;){
+		for(let i = 0 ; i <array[x].length;i++){
 			if (array[x][i]/4 > prev/4){
 				return array[x][i];
 			}
@@ -13,8 +13,8 @@ export const oneCard=(array, x, prev)=>{
 					return array[x][i];
 				}
 			}	
-			i++;
-		}
+		}	
 	}
+	return undefined;
 
 }
