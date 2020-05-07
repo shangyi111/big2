@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { getCardById } from './cards';
 import { isValid } from './rules';
-import { oneCard } from './AI';
+import { computerSubmits } from './AI';
 import { gameStart } from './gameStart';
 
 @Component({
@@ -19,6 +19,7 @@ export class AppComponent {
   submittedCardIds=[];
   selectedCardIds = [];
   isPlayCards: boolean;
+  lastSubmittedPlayerId;
 
 
 
@@ -34,11 +35,18 @@ export class AppComponent {
       this.activeAt %= 4
       // activePlayer is cards of activePlayer has
       const activePlayer = this.players[this.activeAt];
+      let cards;
+
       if (activePlayer.length && this.activeAt > 0) {
-        const card = oneCard(this.players, this.activeAt,this.submittedCardIds);
-        this.submittedCardIds = card ? [card] : this.submittedCardIds;
+        if(this.lastSubmittedPlayerId === this.activeAt) cards = computerSubmits(this.players, this.activeAt,[]);
+        else cards = computerSubmits(this.players, this.activeAt,this.submittedCardIds);
+        if(!cards.length) this.submittedCardIds = this.submittedCardIds;
+        else if(cards.length>0) {
+            this.submittedCardIds = cards;
+            this.lastSubmittedPlayerId = this.activeAt;
+            this.players[this.activeAt] = this.players[this.activeAt].filter((each) => !this.submittedCardIds.includes(each));
+        }
       }
-     
       this.autoPlay(n-1, 3000);
     }, period)
   }
@@ -46,21 +54,27 @@ export class AppComponent {
 
   getPlayerSelectedCards(selectedCardIds) {
     this.selectedCardIds = selectedCardIds;
-    this.isValidStatus = isValid(selectedCardIds, this.submittedCardIds);
+    if(this.lastSubmittedPlayerId === 0){
+        this.isValidStatus = isValid(selectedCardIds, []);
+    }else{
+        this.isValidStatus = isValid(selectedCardIds, this.submittedCardIds);
+    }
+    
   }
 
   clickSubmitHandler(){
     this.isValidStatus = false;
   	this.isPlayCards = !this.isPlayCards; 
      //what this means?
-  	if(isValid(this.selectedCardIds, this.submittedCardIds)){
-      this.submittedCardIds = this.selectedCardIds;
-      // this.lastSubmittedPlayerId = 
-      this.players[0] = this.players[0].filter((each) => !this.submittedCardIds.includes(each));
-      //players[2] player cards by taking out submitted cards
-      this.autoPlay(3, 0);
-    } 
-
+    if(this.lastSubmittedPlayerId === 0){
+        isValid(this.selectedCardIds, [])
+    }else{
+        isValid(this.selectedCardIds, this.submittedCardIds)
+    }
+    this.submittedCardIds = this.selectedCardIds;
+    this.lastSubmittedPlayerId = 0;
+    this.players[0] = this.players[0].filter((each) => !this.submittedCardIds.includes(each));
+    this.autoPlay(3, 3000);
 
   }
 

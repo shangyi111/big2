@@ -16,7 +16,7 @@
     </div>
     <div class="buttons">
       <button type="submit" class="submit" (click)="clickSubmitHandler()" [hidden]="activeAt > 0 || !this.isValidStatus"> SUBMIT</button>
-      <button type="submit" class="pass" (click)="clickPassHandler()" [hidden]="activeAt > 0"> PASS </button>
+      <button type="submit" class="pass" (click)="clickPassHandler()" [hidden]="activeAt > 0 || this.isValidStatus || this.lastSubmittedPlayerId === 0"> PASS </button>
     </div>
   </div>
   <div class="six" >
