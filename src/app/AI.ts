@@ -72,6 +72,38 @@ export const computerSubmits=(players, id, lastSubmittedCardIds)=>{
 			console.log(cardsToSubmit);
 			if(cardsToSubmit.length === 5) return cardsToSubmit;
 		}
+
+		if(isStraight(lastSubmittedCardIds)){
+			
+			const values = {};
+			const cardsToSubmit=[];
+			const lastSubmittedCardValue = getStraightMax(lastSubmittedCardIds);
+
+			for (let cardId of players[id]) {
+				const value = Math.floor(cardId / 4);
+				if (values[value]) {
+					values[value].push(cardId);
+				} else {
+					values[value] = [cardId];
+				}
+			}
+
+			const valuesArr = Object.keys(values);
+
+			let straightStartsAtIds = findStraight(valuesArr);
+			for(let i = 0; i <straightStartsAtIds.length; i ++ ){
+				if(Number(valuesArr[straightStartsAtIds[i]]) >= lastSubmittedCardValue){
+					let curPosition = straightStartsAtIds[i];
+					cardsToSubmit.push(values[valuesArr[curPosition]][0]);
+					cardsToSubmit.push(values[valuesArr[curPosition+1]][0]);
+					cardsToSubmit.push(values[valuesArr[curPosition+2]][0]);
+					cardsToSubmit.push(values[valuesArr[curPosition+3]][0]);
+					cardsToSubmit.push(values[valuesArr[curPosition+4]][0]);
+					return cardsToSubmit;
+				}
+			}	
+		}
+		return [];
 	}
 	return [];
 }
@@ -100,3 +132,30 @@ const getFullHouseMax = (array) => {
 	}
 
 }
+
+
+const isStraight=(array)=>{
+	array = array.sort((a,b) => a - b);
+	let variance = Math.floor(array[4]/4)-Math.floor(array[0]/4);
+	if(variance === 4) return true;
+	else return false;
+}
+
+const getStraightMax = (array) => {
+	array = array.sort((a,b) => a - b);
+	return Math.floor(array[0]/4);
+}
+
+
+const findStraight=(array)=>{
+	let straightStartsAtIds=[];
+	array = array.sort((a,b) => a - b);
+	for(let i = 0 ; i <(array.length-4);i++){
+		let variance = Math.floor(array[i+4])-Math.floor(array[i]);
+		if(variance === 4) straightStartsAtIds.push(i);
+	}
+	return straightStartsAtIds;
+
+}
+
+

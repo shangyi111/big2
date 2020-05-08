@@ -85,8 +85,16 @@ export const isValid = (array,prev) => {
     		else return false;
  		}
  		else return false;
-    }
 
+
+ 		if(isStraight(prev) && isStraight(array)){
+ 			let prevMax, curMax;
+ 			prevMax = prev[0];
+ 			curMax = array[0];
+ 			if(curMax >= prevMax) return true;
+ 			else return false;
+ 		}
+    }
 
 
 }
@@ -103,6 +111,13 @@ const isFullHouse=(array)=>{ //five elements in this array
 	let min = Math.min(...Object.values(countMap) as number[]);
 
 	if(max === 3 && min == 2) return true;
+}
+
+const isStraight=(array)=>{
+	array = array.sort((a,b) => a - b);
+	let variance = Math.floor(array[4]/4)-Math.floor(array[0]/4);
+	if(variance === 4) return true;
+	else return false;
 }
 
 

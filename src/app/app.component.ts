@@ -47,7 +47,7 @@ export class AppComponent {
             this.players[this.activeAt] = this.players[this.activeAt].filter((each) => !this.submittedCardIds.includes(each));
         }
       }
-      this.autoPlay(n-1, 3000);
+      this.autoPlay(n-1, 2000);
     }, period)
   }
   
