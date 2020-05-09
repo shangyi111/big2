@@ -1,34 +1,35 @@
-export const computerSubmits=(players, id, lastSubmittedCardIds)=>{
+export const computerSubmits=(players, id, lastSubmittedCardIds, isFirstTurn=false)=>{
+	let output = [];
 	if(!lastSubmittedCardIds.length){
-		return playStraight(players,id,lastSubmittedCardIds) 
-			|| playFullHouse(players,id,lastSubmittedCardIds) 
-			|| playKingKong(players,id,lastSubmittedCardIds) 
-			|| reactToPairs(players,id,lastSubmittedCardIds)
+		output = playStraight(players,id,lastSubmittedCardIds,isFirstTurn) 
+			|| playFullHouse(players,id,lastSubmittedCardIds,isFirstTurn) 
+			|| playKingKong(players,id,lastSubmittedCardIds,isFirstTurn) 
+			|| reactToPairs(players,id,lastSubmittedCardIds,isFirstTurn)
 			|| reactToSigle(players,id,lastSubmittedCardIds)
 	}
 	
-	if(lastSubmittedCardIds.length === 1) return reactToSigle(players,id,lastSubmittedCardIds);
+	if(lastSubmittedCardIds.length === 1) output = reactToSigle(players,id,lastSubmittedCardIds);
 	
-	if(lastSubmittedCardIds.length === 2) return reactToPairs(players,id,lastSubmittedCardIds);
+	if(lastSubmittedCardIds.length === 2) output = reactToPairs(players,id,lastSubmittedCardIds);
 
 	if(lastSubmittedCardIds.length === 5){
 		
 		if(isFullHouse(lastSubmittedCardIds)){
-			if(playFullHouse(players,id,lastSubmittedCardIds))return playFullHouse(players,id,lastSubmittedCardIds);
+			if(playFullHouse(players,id,lastSubmittedCardIds)) output = playFullHouse(players,id,lastSubmittedCardIds);
 			else return playKingKong(players,id,lastSubmittedCardIds);
 		}
 
 		if(isStraight(lastSubmittedCardIds)){
-			if(playStraight(players,id,lastSubmittedCardIds)) return playStraight(players,id,lastSubmittedCardIds);
-			else if(playFullHouse(players,id,lastSubmittedCardIds)) return playFullHouse(players,id,lastSubmittedCardIds);
+			if(playStraight(players,id,lastSubmittedCardIds)) output = playStraight(players,id,lastSubmittedCardIds);
+			else if(playFullHouse(players,id,lastSubmittedCardIds)) output = playFullHouse(players,id,lastSubmittedCardIds);
 			else return playKingKong(players,id,lastSubmittedCardIds);
 		}
 
 		if(isKingKong(lastSubmittedCardIds)){
-			return playKingKong(players,id,lastSubmittedCardIds);
+			output = playKingKong(players,id,lastSubmittedCardIds);
 		}
 	}
-	return [];
+	return output;
 }
 
 
@@ -82,7 +83,7 @@ const getKingKongMax=(array) =>{
 	else return Math.floor(array[1]/4);
 }
 
-const playKingKong=(players,id,lastSubmittedCardIds)=>{
+const playKingKong=(players,id,lastSubmittedCardIds,isFirstTurn=false)=>{
 	const values = valueMap(players,id);
 	const cardsToSubmit = [];
 	let lastSubmittedCardValue = null;
@@ -99,14 +100,14 @@ const playKingKong=(players,id,lastSubmittedCardIds)=>{
 			for (let j =0; j < valuesArr.length; j++){
 				if(valuesArr[j].length ===1){
 					cardsToSubmit.push(...valuesArr[j]);
-					return cardsToSubmit;
+					return (!isFirstTurn || cardsToSubmit.includes(0)) ? cardsToSubmit : undefined;
 				}
 			}
 		}
 	}
 }
 
-const reactToPairs=(players,id,lastSubmittedCardIds)=>{
+const reactToPairs=(players,id,lastSubmittedCardIds,isFirstTurn=false)=>{
 	const values = {};
 	const counts = {};
 	let lastSubmittedCardValue = null;
@@ -118,7 +119,9 @@ const reactToPairs=(players,id,lastSubmittedCardIds)=>{
 		if (values[value]) {
 			values[value].push(cardId);
 			counts[value] += 1;
-			if (counts[value] > 1 && value > lastSubmittedCardValue) return values[value];
+			if (counts[value] > 1 && value > lastSubmittedCardValue) {
+				return (!isFirstTurn || values[value].includes(0)) ? values[value] : undefined;
+			}
 		} else {
 			values[value] = [cardId];
 			counts[value] = 1;
@@ -128,9 +131,8 @@ const reactToPairs=(players,id,lastSubmittedCardIds)=>{
 
 
 const reactToSigle=(players,id,lastSubmittedCardIds)=>{
-	let lastSubmittedCardValue = null;
+	let lastSubmittedCardValue = -1;
 	if(lastSubmittedCardIds.length) lastSubmittedCardValue=lastSubmittedCardIds[0]/4;
-	else lastSubmittedCardValue = null;
 	for(let i = 0 ; i <players[id].length;i++){
 		if (players[id][i]/4 > lastSubmittedCardValue){
 			return [players[id][i]];
@@ -163,7 +165,7 @@ const getFullHouseMax = (array) => {
 
 }
 
-const playFullHouse=(players, id, lastSubmittedCardIds)=>{
+const playFullHouse=(players, id, lastSubmittedCardIds, isFirstTurn=false)=>{
 	const values = valueMap(players, id);
 	const cardsToSubmit = [];
 	let lastSubmittedCardValue = null;
@@ -180,7 +182,7 @@ const playFullHouse=(players, id, lastSubmittedCardIds)=>{
 			for (let j =0; j < valuesArr.length; j++){
 				if(valuesArr[j].length ===2){
 					cardsToSubmit.push(...valuesArr[j]);
-					return cardsToSubmit;
+					return (!isFirstTurn || cardsToSubmit.includes(0)) ? cardsToSubmit : undefined;
 				}
 			}
 		}
@@ -211,7 +213,7 @@ const findStraight=(array)=>{
 
 }
 
-const playStraight=(players,id, lastSubmittedCardIds)=>{
+const playStraight=(players,id, lastSubmittedCardIds,isFirstTurn=false)=>{
 
 	const values = valueMap(players, id);
 	const cardsToSubmit = [];
@@ -231,7 +233,7 @@ const playStraight=(players,id, lastSubmittedCardIds)=>{
 			cardsToSubmit.push(values[valuesArr[curPosition+2]][0]);
 			cardsToSubmit.push(values[valuesArr[curPosition+3]][0]);
 			cardsToSubmit.push(values[valuesArr[curPosition+4]][0]);
-			return cardsToSubmit;
+			return (!isFirstTurn || cardsToSubmit.includes(0)) ? cardsToSubmit : undefined;
 		}
 	}
 }

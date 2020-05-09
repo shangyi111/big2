@@ -23,7 +23,6 @@ export class CardsComponent {
 		}
 		if (this.playerId === 0) {
 			for (let i in this.selecteds) {
-				console.log(i);
 				if(!this.cardIds.includes(Number(i))) this.selecteds[i] = false;
 			}
 		}
