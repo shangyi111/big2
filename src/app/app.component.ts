@@ -40,7 +40,7 @@ export class AppComponent {
       if (activePlayer.length && this.activeAt > 0) {
         if(this.lastSubmittedPlayerId === this.activeAt) cards = computerSubmits(this.players, this.activeAt,[]);
         else cards = computerSubmits(this.players, this.activeAt,this.submittedCardIds);
-        if(!cards.length) this.submittedCardIds = this.submittedCardIds;
+        if(!cards || !cards.length) this.submittedCardIds = this.submittedCardIds;
         else if(cards.length>0) {
             this.submittedCardIds = cards;
             this.lastSubmittedPlayerId = this.activeAt;

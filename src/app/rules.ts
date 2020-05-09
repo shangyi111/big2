@@ -40,14 +40,7 @@ export const isValid = (array,prev) => {
     if(![1,2,5].includes(array.length)) return false;
 
     if(prev.length ===1 && [1].includes(array.length)){
-    	if (array[0]/4 > prev[0]/4){
-				return true;
-		}
-		else if(array[0]/4 === prev[0]/4){
-				if(array[0]%4 > prev[0]%4){
-					return true;
-				}
-		}
+    	if (array[0]/4 > prev[0]/4) return true;
 		else return false;
     }
     //pair case
@@ -60,7 +53,7 @@ export const isValid = (array,prev) => {
     		const valuePrev  =Math.floor(prev[0]/4);
     		if(valueIndex1!== valueIndex0) return false;
     		if(valueIndex0 === valueIndex1){
-    			if(valueIndex0=== valuePrev){
+    			if(valueIndex0 === valuePrev){
     				let prevMax = Math.max(prev[0]%4, prev[1]%4)
     				let curMax = Math.max(array[0]%4, array[1]%4)
     				if(curMax > prevMax) return true;
@@ -84,18 +77,67 @@ export const isValid = (array,prev) => {
     		if(curMax > prevMax) return true;
     		else return false;
  		}
- 		else return false;
 
 
- 		if(isStraight(prev) && isStraight(array)){
- 			let prevMax, curMax;
- 			prevMax = prev[0];
- 			curMax = array[0];
- 			if(curMax >= prevMax) return true;
+ 		if(isStraight(prev)){
+			if(isStraight(array)){
+	 			let prevMax, curMax;
+	 			prevMax = prev[0];
+	 			curMax = array[0];
+	 			if(curMax >= prevMax) return true;
+	 		}
+	 		if(isFullHouse(array) || isKingKong(array)) return true;
+	 		else return false;
+ 		}
+
+ 		if(isFullHouse(prev)){
+ 			if(isFullHouse(array)){
+ 				if(getFullHouseMax(array) > getFullHouseMax(prev)) return true;
+ 			}
+ 			if(isKingKong(array)) return true;
  			else return false;
  		}
+
+ 		if(isKingKong(prev)){
+ 			if(isKingKong(array)){
+ 				if(getKingKongMax(array)>getKingKongMax(prev)) return true;
+ 			}
+ 			else return false;
+ 		}
+
     }
 
+
+}
+
+const getKingKongMax=(array) =>{
+	if(Math.floor(array[0]/4) > Math.floor(array[1]/4)) return Math.floor(array[0]/4);
+	else return Math.floor(array[1]/4);
+}
+
+
+const isKingKong=(array)=>{
+	array = array.sort((a,b) => a - b);
+	let countMap = {};
+	for (const x of array ) { 
+				const value = Math.floor(x/4);
+				countMap[value] = (countMap[value] || 0)+1; 
+	}
+
+	let max = Math.max(...Object.values(countMap) as number[]);
+	let min = Math.min(...Object.values(countMap) as number[]);
+
+	if(max === 4) return true;
+}
+
+const getFullHouseMax = (array) => {
+	array = array.sort((a,b) => a - b);
+	for(let i=0; i <5; i ++){
+		if(Math.floor(array[i]/4) === Math.floor(array[i+1]/4) && Math.floor(array[i+1]/4) ===Math.floor(array[i+2])/4){
+			return Math.floor(array[i]/4);
+		}
+		else return Math.floor(array[4]/4);
+	}
 
 }
 
