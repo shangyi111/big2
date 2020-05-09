@@ -110,9 +110,14 @@ export const isValid = (array,prev) => {
 
 }
 
+
 const getKingKongMax=(array) =>{
-	if(Math.floor(array[0]/4) > Math.floor(array[1]/4)) return Math.floor(array[0]/4);
-	else return Math.floor(array[1]/4);
+	const counts = {};
+	for (let cardId of array) {
+		const value = Math.floor(cardId / 4);
+		counts[value] = (counts[value] || 0)+ 1; 
+		if (counts[value] === 4) return value;
+	}
 }
 
 
@@ -125,7 +130,6 @@ const isKingKong=(array)=>{
 	}
 
 	let max = Math.max(...Object.values(countMap) as number[]);
-	let min = Math.min(...Object.values(countMap) as number[]);
 
 	if(max === 4) return true;
 }
