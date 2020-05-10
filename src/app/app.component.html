@@ -14,6 +14,10 @@
     <div class="placeholder">
       <cards [cardIds] = "this.submittedCardIds" [isActive]="true" ></cards>
     </div>
+    <div class="endGame" [hidden]="!endGame">
+      <div id="win"> PLAYER {{activeAt}} WINS.</div>
+      <button class="replay" (click)="this.reset()">REPLAY</button>
+    </div>
     <div class="buttons">
       <button type="submit" class="submit" (click)="clickSubmitHandler()" [hidden]="(activeAt > 0 && isActive(activeAt)) || !this.isValidStatus"> SUBMIT</button>
       <button type="submit" class="pass" (click)="clickPassHandler()" [hidden]="(activeAt > 0 && isActive(activeAt)) || this.isValidStatus || this.lastSubmittedPlayerId === 0"> PASS </button>

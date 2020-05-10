@@ -4,6 +4,7 @@ import { isValid } from './rules';
 import { computerSubmits } from './AI';
 import { gameStart } from './gameStart';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -21,11 +22,23 @@ export class AppComponent {
   isPlayCards: boolean;
   lastSubmittedPlayerId;
   turn = 0;
+  endGame : boolean = false;
 
 
 
   constructor() {
-  	gameStart(51,this.players);
+  	this.reset();
+  }
+
+  reset(){
+    this.players = [[], [], [], []];
+    this.activeAt = 0;
+    this.isValidStatus = false;
+    this.submittedCardIds = [];
+    this.selectedCardIds = [];
+    this.turn = 0;
+    this.endGame = false;
+    gameStart(51,this.players);
     for(let i=0; i<4; i++){
       if(this.players[i].includes(0)){
         this.lastSubmittedPlayerId = this.activeAt = (i + 3) % 4;       
@@ -35,7 +48,7 @@ export class AppComponent {
     console.log(`activeAt: ${this.activeAt}`);
     console.log(`lastSubmittedPlayerId: ${this.lastSubmittedPlayerId}`);
     if ((this.activeAt + 1) % 4 > 0) {
-      this.autoPlay(3 - this.activeAt, 2000);
+      this.autoPlay(3 - this.activeAt, 1000);
     }
   }
 
@@ -56,22 +69,24 @@ export class AppComponent {
       console.log(this.activeAt);
       // activePlayer is cards of activePlayer has
       const activePlayer = this.players[this.activeAt];
-
       if (activePlayer.length && this.activeAt > 0) {
         if(this.lastSubmittedPlayerId === this.activeAt){
-          cards = computerSubmits(this.players, this.activeAt,[]); //????
+          cards = computerSubmits(this.players, this.activeAt,[]); 
         }
         else {
           cards = computerSubmits(this.players, this.activeAt,this.submittedCardIds, true);
         }
-        
         if(cards && cards.length>0) {
           this.submittedCardIds = cards;
           this.lastSubmittedPlayerId = this.activeAt;
           this.players[this.activeAt] = this.players[this.activeAt].filter((each) => !this.submittedCardIds.includes(each));
         }
       }
-      this.autoPlay(n-1, 2000, cards);
+      if(!this.players[this.activeAt].length) {
+        this.runEndGame();
+      } else {
+        this.autoPlay(n-1, 500, cards);
+      }
     }, period)
   }
   
@@ -99,8 +114,11 @@ export class AppComponent {
     this.submittedCardIds = this.selectedCardIds;
     this.lastSubmittedPlayerId = 0;
     this.players[0] = this.players[0].filter((each) => !this.submittedCardIds.includes(each));
-    this.autoPlay(3, 2000);
-
+    if(!this.players[this.activeAt].length) {
+      this.runEndGame();
+    } else {
+      this.autoPlay(3, 500);
+    }
   }
 
   clickPassHandler(){
@@ -108,8 +126,10 @@ export class AppComponent {
   }
   
 
+  runEndGame(){
+    this.endGame = true;
 
-
+  }
 
 
 

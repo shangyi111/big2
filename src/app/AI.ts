@@ -2,10 +2,10 @@ export const computerSubmits=(players, id, lastSubmittedCardIds, isFirstTurn=fal
 	let output = [];
 	if(!lastSubmittedCardIds.length){
 		output = playStraight(players,id,lastSubmittedCardIds,isFirstTurn) 
-			|| playFullHouse(players,id,lastSubmittedCardIds,isFirstTurn) 
-			|| playKingKong(players,id,lastSubmittedCardIds,isFirstTurn) 
-			|| reactToPairs(players,id,lastSubmittedCardIds,isFirstTurn)
-			|| reactToSigle(players,id,lastSubmittedCardIds)
+		|| playFullHouse(players,id,lastSubmittedCardIds,isFirstTurn) 
+		|| playKingKong(players,id,lastSubmittedCardIds,isFirstTurn) 
+		|| reactToPairs(players,id,lastSubmittedCardIds,isFirstTurn)
+		|| reactToSigle(players,id,lastSubmittedCardIds)
 	}
 	
 	if(lastSubmittedCardIds.length === 1) output = reactToSigle(players,id,lastSubmittedCardIds);
@@ -16,13 +16,13 @@ export const computerSubmits=(players, id, lastSubmittedCardIds, isFirstTurn=fal
 		
 		if(isFullHouse(lastSubmittedCardIds)){
 			output = playFullHouse(players,id,lastSubmittedCardIds)
-					|| playKingKong(players,id,lastSubmittedCardIds);
+			|| playKingKong(players,id,lastSubmittedCardIds);
 		}
 
 		if(isStraight(lastSubmittedCardIds)){
 			output = playStraight(players,id,lastSubmittedCardIds)
-			      || playFullHouse(players,id,lastSubmittedCardIds)
-			      || playKingKong(players,id,lastSubmittedCardIds);
+			|| playFullHouse(players,id,lastSubmittedCardIds)
+			|| playKingKong(players,id,lastSubmittedCardIds);
 		}
 
 		if(isKingKong(lastSubmittedCardIds)){

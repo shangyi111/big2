@@ -67,14 +67,7 @@ export const isValid = (array,prev) => {
 
     if(prev.length === 5){
     	if(isFullHouse(prev) && isFullHouse(array)){
-    		let prevMax, curMax;
-    		for(let i = 1 ; i<5; i ++){
-    			prevMax = Math.floor(prev[0]/4) > Math.floor(prev[i]/4) ?  Math.floor(prev[0]/4) : Math.floor(prev[i]/4);  
-    		}
-    		for(let i = 1 ; i<5; i ++){
-    			curMax = Math.floor(array[0]/4) > Math.floor(array[i]/4) ?  Math.floor(array[0]/4) : Math.floor(array[i]/4);  
-    		}
-    		if(curMax > prevMax) return true;
+    		if(getFullHouseMax(array) > getFullHouseMax(prev)) return true;
     		else return false;
  		}
 
