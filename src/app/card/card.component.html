@@ -1,7 +1,8 @@
 <div 
 class="card 
 {{this.isUser? 'playerCardHoverEffect' : ''}} 
-{{this.selected? 'selectedCardCssEffect' : ''}}" 
+{{this.selected? 'selectedCardCssEffect' : ''}}
+{{this.fadeIn ? 'fade-in' : ''}}" 
 
 style="color:{{this.getColor()}}" 
 (click)="onClick()" > 

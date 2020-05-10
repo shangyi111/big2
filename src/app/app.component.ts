@@ -23,7 +23,8 @@ export class AppComponent {
   lastSubmittedPlayerId;
   turn = 0;
   endGame : boolean = false;
-
+  zoom: boolean;
+  pass:boolean[]=[false, false, false,false];
 
 
   constructor() {
@@ -38,6 +39,8 @@ export class AppComponent {
     this.selectedCardIds = [];
     this.turn = 0;
     this.endGame = false;
+    this.pass=[false, false, false,false];
+
     gameStart(51,this.players);
     for(let i=0; i<4; i++){
       if(this.players[i].includes(0)){
@@ -48,6 +51,7 @@ export class AppComponent {
     console.log(`activeAt: ${this.activeAt}`);
     console.log(`lastSubmittedPlayerId: ${this.lastSubmittedPlayerId}`);
     if ((this.activeAt + 1) % 4 > 0) {
+      this.zoom = true;
       this.autoPlay(3 - this.activeAt, 1000);
     }
   }
@@ -60,12 +64,17 @@ export class AppComponent {
   
   
   autoPlay(n, period, cards=undefined) {
-    if (n < 0) return;
+    if (n < 0) {
+      this.zoom = false;
+      return;
+    }
     setTimeout(() => {
       console.log(`autoPlay activeAt: ${this.activeAt}`)
+
       this.activeAt += 1;
       this.activeAt %= 4;
       this.turn += 1;
+      this.pass[this.activeAt] = false;
       console.log(this.activeAt);
       // activePlayer is cards of activePlayer has
       const activePlayer = this.players[this.activeAt];
@@ -76,6 +85,7 @@ export class AppComponent {
         else {
           cards = computerSubmits(this.players, this.activeAt,this.submittedCardIds, true);
         }
+        if(!cards || !cards.length) this.pass[this.activeAt]=true;
         if(cards && cards.length>0) {
           this.submittedCardIds = cards;
           this.lastSubmittedPlayerId = this.activeAt;
@@ -102,6 +112,8 @@ export class AppComponent {
   }
 
   clickSubmitHandler(){
+    this.pass[this.activeAt] = false;
+    this.zoom = true;
     if (this.turn === 0) this.lastSubmittedPlayerId = this.activeAt = 0;
     this.isValidStatus = false;
   	this.isPlayCards = !this.isPlayCards; 
@@ -111,6 +123,7 @@ export class AppComponent {
     }else{
         isValid(this.selectedCardIds, this.submittedCardIds)
     }
+    this.selectedCardIds.sort((a,b) => a - b);
     this.submittedCardIds = this.selectedCardIds;
     this.lastSubmittedPlayerId = 0;
     this.players[0] = this.players[0].filter((each) => !this.submittedCardIds.includes(each));
@@ -122,7 +135,9 @@ export class AppComponent {
   }
 
   clickPassHandler(){
+    this.zoom = true;
     this.autoPlay(3, 0);
+    this.pass[this.activeAt] = true;
   }
   
 

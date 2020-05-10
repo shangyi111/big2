@@ -5,6 +5,7 @@
 		[suit]="card.suit" 
 		[isUser]="playerId === 0" 
 		[selected]="isSelected(card)" 
+		[fadeIn] = "this.fadeIn"
 		(select)="emitSelectedCardIds($event)"></card>
 	</div>
 </div>

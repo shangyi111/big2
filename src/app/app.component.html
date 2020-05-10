@@ -4,15 +4,21 @@
   <div class="two" >
   	<cards [cardIds]="this.players[2]" [playerId]="2" [isActive]="isActive(2)"> 
     </cards>
+    <div class="popup popupPositionUp" [hidden]="!this.pass[2]" >
+      <span class="popuptext" id="myPopup">PASS</span>
+    </div>
   </div>
   <div class="three" ></div>
   <div class="four">
   	<cards [cardIds]="this.players[1]" [playerId]="1" [isActive]="isActive(1)"> 
     </cards>
+    <div class="popup popupPositionLeft" [hidden]="!this.pass[1]" >
+      <span class="popuptext" id="myPopup">PASS</span>
+    </div>
   </div>
   <div class="five" >
     <div class="placeholder">
-      <cards [cardIds] = "this.submittedCardIds" [isActive]="true" ></cards>
+      <cards [cardIds] = "this.submittedCardIds" [isActive]="true" [fadeIn]="this.zoom" ></cards>
     </div>
     <div class="endGame" [hidden]="!endGame">
       <div id="win"> PLAYER {{activeAt}} WINS.</div>
@@ -26,11 +32,17 @@
   <div class="six" >
   	<cards [cardIds]="this.players[3]" [playerId]="3" [isActive]="isActive(3)"> 
     </cards>
+    <div class="popup popupPositionRight" [hidden]="!this.pass[3]" >
+      <span class="popuptext" id="myPopup">PASS</span>
+    </div>
   </div>
   <div class="seven" ></div>
   <div class="eight" > 
     <cards [cardIds]="this.players[0]" [playerId]="0" (playerSelectedCards)="getPlayerSelectedCards($event)" [isActive]="isActive(0)">
     </cards>
+    <div class="popup popupPositionDown" [hidden]="!this.pass[0]" >
+      <span class="popuptext" id="myPopup">PASS</span>
+    </div>
   </div>
   
   <div class="nine"></div>

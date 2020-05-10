@@ -89,6 +89,7 @@ const playKingKong=(players,id,lastSubmittedCardIds,isFirstTurn=false)=>{
 			for (let j =0; j < valuesArr.length; j++){
 				if(valuesArr[j].length ===1){
 					cardsToSubmit.push(...valuesArr[j]);
+					cardsToSubmit.sort((a,b) => a - b);
 					return (!isFirstTurn || cardsToSubmit.includes(0)) ? cardsToSubmit : undefined;
 				}
 			}
@@ -161,6 +162,7 @@ const playFullHouse=(players, id, lastSubmittedCardIds, isFirstTurn=false)=>{
 			for (let j =0; j < valuesArr.length; j++){
 				if(valuesArr[j].length ===2){
 					cardsToSubmit.push(...valuesArr[j]);
+					cardsToSubmit.sort((a,b) => a - b);
 					return (!isFirstTurn || cardsToSubmit.includes(0)) ? cardsToSubmit : undefined;
 				}
 			}
@@ -212,6 +214,7 @@ const playStraight=(players,id, lastSubmittedCardIds,isFirstTurn=false)=>{
 			cardsToSubmit.push(values[valuesArr[curPosition+2]][0]);
 			cardsToSubmit.push(values[valuesArr[curPosition+3]][0]);
 			cardsToSubmit.push(values[valuesArr[curPosition+4]][0]);
+			cardsToSubmit.sort((a,b) => a - b);
 			return (!isFirstTurn || cardsToSubmit.includes(0)) ? cardsToSubmit : undefined;
 		}
 	}

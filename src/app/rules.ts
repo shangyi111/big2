@@ -129,13 +129,10 @@ const isKingKong=(array)=>{
 
 const getFullHouseMax = (array) => {
 	array = array.sort((a,b) => a - b);
-	for(let i=0; i <5; i ++){
-		if(Math.floor(array[i]/4) === Math.floor(array[i+1]/4) && Math.floor(array[i+1]/4) ===Math.floor(array[i+2])/4){
-			return Math.floor(array[i]/4);
-		}
-		else return Math.floor(array[4]/4);
+	if(Math.floor(array[0]/4) === Math.floor(array[1]/4) && Math.floor(array[1]/4) === Math.floor(array[2]/4)){
+		return Math.floor(array[0]/4);
 	}
-
+		else return Math.floor(array[4]/4);
 }
 
 const isFullHouse=(array)=>{ //five elements in this array
