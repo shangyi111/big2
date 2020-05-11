@@ -1,0 +1,31 @@
+.chip {
+  display: inline-block;
+  padding: 0 10px;
+  height: 20px;
+  font-size: 20px;
+  line-height: 20px;
+  border-radius: 25px;
+  background-color: transparent;
+  color:white;
+}
+
+.chip img {
+  float: left;
+  margin: 0 10px 0 -25px;
+  height: 22px;
+  width: 22px;
+  border-radius: 50%;
+}
+
+.nameTagDown{
+  transform:translate(82%,13%);
+}
+.nameTagUp{
+  transform:translate(600%,13%);
+}
+.nameTagRight{
+  transform: translate(-99%,600%) rotate(-90deg);
+}
+.nameTagLeft{
+  transform: translate(350%,-500%) rotate(90deg);
+}
