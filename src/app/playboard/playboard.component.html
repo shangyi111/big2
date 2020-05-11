@@ -7,6 +7,7 @@
     <div class="popup popupPositionUp" [hidden]="!this.pass[2]" >
       <span class="popuptext" id="myPopup">PASS</span>
     </div>
+    <nametag [playerId]="2"></nametag>
   </div>
   <div class="three" ></div>
   <div class="four">
@@ -15,6 +16,7 @@
     <div class="popup popupPositionLeft" [hidden]="!this.pass[1]" >
       <span class="popuptext" id="myPopup">PASS</span>
     </div>
+    <nametag [playerId]="1"></nametag>
   </div>
   <div class="five" >
     <div class="placeholder">
@@ -22,8 +24,9 @@
     </div>
     <div class="endGame" [hidden]="!endGame">
       <div id="win"> PLAYER {{activeAt}} WINS</div>
-      <button class="replay" (click)="this.reset()">REPLAY</button>
-    </div>
+        <button class="replay" (click)="this.reset()">REPLAY</button>
+        <button class="home" [routerLink]="['']">HOME</button>
+      </div>
     <div class="buttons">
       <button type="submit" class="submit" (click)="clickSubmitHandler()" [hidden]="(activeAt > 0 && isActive(activeAt)) || !this.isValidStatus"> SUBMIT</button>
       <button type="submit" class="pass" (click)="clickPassHandler()" [hidden]="(activeAt > 0 && isActive(activeAt)) || this.isValidStatus || this.lastSubmittedPlayerId === 0"> PASS </button>
@@ -35,6 +38,7 @@
     <div class="popup popupPositionRight" [hidden]="!this.pass[3]" >
       <span class="popuptext" id="myPopup">PASS</span>
     </div>
+    <nametag [playerId]="3"></nametag>
   </div>
   <div class="seven" ></div>
   <div class="eight" > 
@@ -43,6 +47,7 @@
     <div class="popup popupPositionDown" [hidden]="!this.pass[0]" >
       <span class="popuptext" id="myPopup">PASS</span>
     </div>
+    <nametag [playerId]="0"></nametag>
   </div>
   
   <div class="nine"></div>
