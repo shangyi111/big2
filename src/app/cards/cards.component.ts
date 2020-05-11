@@ -1,6 +1,6 @@
 import { CardComponent } from './../card/card.component';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { getCardById } from '../cards';
+import { getCardById } from '../helper/cards';
 
 @Component({
   selector: 'cards',

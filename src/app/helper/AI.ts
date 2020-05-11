@@ -201,7 +201,7 @@ const playStraight=(players,id, lastSubmittedCardIds,isFirstTurn=false)=>{
 	let lastSubmittedCardValue = -1;
 	if(lastSubmittedCardIds.length) {
 		lastSubmittedCardValue=getStraightMax(lastSubmittedCardIds);
-	} else lastSubmittedCardValue = -1;
+	}
 
 	const valuesArr = Object.keys(values);
 
@@ -209,11 +209,9 @@ const playStraight=(players,id, lastSubmittedCardIds,isFirstTurn=false)=>{
 	for(let i = 0; i <straightStartsAtIds.length; i ++ ){
 		if(Number(valuesArr[straightStartsAtIds[i]]) >= lastSubmittedCardValue){
 			let curPosition = straightStartsAtIds[i];
-			cardsToSubmit.push(values[valuesArr[curPosition]][0]);
-			cardsToSubmit.push(values[valuesArr[curPosition+1]][0]);
-			cardsToSubmit.push(values[valuesArr[curPosition+2]][0]);
-			cardsToSubmit.push(values[valuesArr[curPosition+3]][0]);
-			cardsToSubmit.push(values[valuesArr[curPosition+4]][0]);
+			for (let i = 0; i < 5; i++) {
+				cardsToSubmit.push(values[valuesArr[curPosition+i]][0]);
+			}
 			cardsToSubmit.sort((a,b) => a - b);
 			return (!isFirstTurn || cardsToSubmit.includes(0)) ? cardsToSubmit : undefined;
 		}
