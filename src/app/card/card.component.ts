@@ -9,11 +9,11 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class CardComponent  {
 	@Input('value') value: number;
 	@Input('suit') suit: number;
-	@Input() isUser: boolean; 
-	@Input() selected: boolean;   //selected cards
-	@Input() fadeIn: boolean = false;
+	@Input('isUser') isUser: boolean; 
+	@Input('selected') selected: boolean;   //selected cards
+	@Input('fadeIn') fadeIn: boolean = false;
 
-	@Output() select = new EventEmitter();
+	@Output('select') select = new EventEmitter();
 
 	private static SUIT = ["♦","♣","♥","♠"];
 	

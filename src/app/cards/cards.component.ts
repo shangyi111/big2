@@ -13,7 +13,9 @@ export class CardsComponent {
 	@Input() isActive: boolean;
 	@Input() playerId: number;
 	@Input() fadeIn: boolean = false;
+
 	@Output() playerSelectedCards = new EventEmitter();
+	
 	selecteds: boolean[] = [];
 
 

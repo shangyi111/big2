@@ -14,4 +14,6 @@ export class ContactChipsComponent {
 		return ["nameTagDown","nameTagLeft","nameTagUp","nameTagRight"][this.playerId];
 	}
 
+	
+
 }

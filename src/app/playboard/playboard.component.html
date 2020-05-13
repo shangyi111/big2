@@ -4,7 +4,7 @@
   <div class="two" >
   	<cards [cardIds]="this.players[2]" [playerId]="2" [isActive]="isActive(2)"> 
     </cards>
-    <div class="popup popupPositionUp" [hidden]="!this.pass[2]" >
+    <div *ngIf="this.pass[2]" class="popup popupPositionUp" >
       <span class="popuptext" id="myPopup">PASS</span>
     </div>
     <nametag [playerId]="2"></nametag>
@@ -13,7 +13,7 @@
   <div class="four">
   	<cards [cardIds]="this.players[1]" [playerId]="1" [isActive]="isActive(1)"> 
     </cards>
-    <div class="popup popupPositionLeft" [hidden]="!this.pass[1]" >
+    <div *ngIf="this.pass[1]" class="popup popupPositionLeft"  >
       <span class="popuptext" id="myPopup">PASS</span>
     </div>
     <nametag [playerId]="1"></nametag>
@@ -22,20 +22,20 @@
     <div class="placeholder">
       <cards [cardIds] = "this.submittedCardIds" [isActive]="true" [fadeIn]="this.zoom" ></cards>
     </div>
-    <div class="endGame" [hidden]="!endGame">
+    <div class="endGame" [hidden]="!this.isEndGame(this.activeAt)">
       <div id="win"> PLAYER {{activeAt}} WINS</div>
         <button class="replay" (click)="this.reset()">REPLAY</button>
         <button class="home" [routerLink]="['']">HOME</button>
       </div>
     <div class="buttons">
-      <button type="submit" class="submit" (click)="clickSubmitHandler()" [hidden]="(activeAt > 0 && isActive(activeAt)) || !this.isValidStatus"> SUBMIT</button>
-      <button type="submit" class="pass" (click)="clickPassHandler()" [hidden]="(activeAt > 0 && isActive(activeAt)) || this.isValidStatus || this.lastSubmittedPlayerId === 0"> PASS </button>
+      <button *ngIf="isActive(0) && this.isValidStatus()" type="submit" class="submit" (click)="clickSubmitHandler()"> SUBMIT</button>
+      <button *ngIf="isActive(0) && !this.isValidStatus() && this.lastSubmittedPlayerId !== activeAt"type="submit" class="pass" (click)="clickPassHandler()" > PASS </button>
     </div>
   </div>
   <div class="six" >
   	<cards [cardIds]="this.players[3]" [playerId]="3" [isActive]="isActive(3)"> 
     </cards>
-    <div class="popup popupPositionRight" [hidden]="!this.pass[3]" >
+    <div *ngIf="this.pass[3]" class="popup popupPositionRight" >
       <span class="popuptext" id="myPopup">PASS</span>
     </div>
     <nametag [playerId]="3"></nametag>

@@ -20,13 +20,10 @@ export class PlayboardComponent {
   title = 'big2';
   players = [[], [], [], []];
   activeAt = 0;
-  isValidStatus : boolean = false;
   submittedCardIds=[];
   selectedCardIds = [];
-  isPlayCards: boolean;
   lastSubmittedPlayerId;
   turn = 0;
-  endGame : boolean = false;
   zoom: boolean;
   pass:boolean[]=[false, false, false,false];
 
@@ -49,11 +46,9 @@ export class PlayboardComponent {
   reset(){
     this.players = [[], [], [], []];
     this.activeAt = 0;
-    this.isValidStatus = false;
     this.submittedCardIds = [];
     this.selectedCardIds = [];
     this.turn = 0;
-    this.endGame = false;
     this.pass=[false, false, false,false];
 
     gameStart(51,this.players);
@@ -107,9 +102,7 @@ export class PlayboardComponent {
           this.players[this.activeAt] = this.players[this.activeAt].filter((each) => !this.submittedCardIds.includes(each));
         }
       }
-      if(!this.players[this.activeAt].length) {
-        this.runEndGame();
-      } else {
+      if(!this.isEndGame(this.activeAt)) {
         this.autoPlay(n-1, 500, cards);
       }
     }, period)
@@ -119,11 +112,12 @@ export class PlayboardComponent {
   getPlayerSelectedCards(selectedCardIds) {
     this.selectedCardIds = selectedCardIds;
     if(this.lastSubmittedPlayerId === 0){
-        this.isValidStatus = isValid(selectedCardIds, []);
-    }else{
-        this.isValidStatus = isValid(selectedCardIds, this.submittedCardIds);
+      this.submittedCardIds = [];
     }
-    
+  }
+
+  isValidStatus() {
+    return isValid(this.selectedCardIds, this.submittedCardIds);
   }
 
   clickSubmitHandler(){
@@ -132,24 +126,13 @@ export class PlayboardComponent {
       this.pass[this.activeAt] = false;
       this.zoom = true;
       if (this.turn === 0) this.lastSubmittedPlayerId = this.activeAt = 0;
-      this.isValidStatus = false;
-    	this.isPlayCards = !this.isPlayCards; 
-       //what this means?
-      if(this.lastSubmittedPlayerId === 0){
-          isValid(this.selectedCardIds, [])
-      }else{
-          isValid(this.selectedCardIds, this.submittedCardIds)
-      }
       this.selectedCardIds.sort((a,b) => a - b);
       this.submittedCardIds = this.selectedCardIds;
       this.lastSubmittedPlayerId = 0;
       this.players[0] = this.players[0].filter((each) => !this.submittedCardIds.includes(each));
-      if(!this.players[this.activeAt].length) {
-        this.runEndGame();
-      } else {
+      if(!this.isEndGame(this.activeAt)) {
         this.autoPlay(3, 500);
       }
-    } else {
     }
   }
 
@@ -166,13 +149,9 @@ export class PlayboardComponent {
       );
     }
   }
-  
 
-  runEndGame(){
-    this.endGame = true;
-
+  isEndGame(playerId) {
+    console.log(`playerId: ${playerId}`);
+    return this.players[playerId].length === 0;
   }
-
-
-
 }
