@@ -24,7 +24,6 @@ export class PlayboardComponent {
   selectedCardIds = [];
   lastSubmittedPlayerId;
   turn = 0;
-  zoom: boolean;
   pass:boolean[]=[false, false, false,false];
 
   private sub: any;
@@ -61,7 +60,7 @@ export class PlayboardComponent {
     console.log(`activeAt: ${this.activeAt}`);
     console.log(`lastSubmittedPlayerId: ${this.lastSubmittedPlayerId}`);
     if ((this.activeAt + 1) % 4 > 0) {
-      this.zoom = true;
+      // this.zoom = true;
       this.autoPlay(3 - this.activeAt, 1000);
     }
   }
@@ -75,7 +74,7 @@ export class PlayboardComponent {
   
   autoPlay(n, period, cards=undefined) {
     if (n < 0) {
-      this.zoom = false;
+      // this.zoom = false;
       return;
     }
     setTimeout(() => {
@@ -89,21 +88,23 @@ export class PlayboardComponent {
       // activePlayer is cards of activePlayer has
       const activePlayer = this.players[this.activeAt];
       if (activePlayer.length && this.activeAt > 0) {
-        if(this.lastSubmittedPlayerId === this.activeAt){
-          cards = computerSubmits(this.players, this.activeAt,[]); 
+        if(this.lastSubmittedPlayerId === this.activeAt) this.submittedCardIds = [];
+        cards = computerSubmits(
+          this.players, 
+          this.activeAt, 
+          this.submittedCardIds, 
+          this.turn === 1);
+        if(!cards || !cards.length) {
+          this.pass[this.activeAt] = true;
         }
-        else {
-          cards = computerSubmits(this.players, this.activeAt,this.submittedCardIds, true);
-        }
-        if(!cards || !cards.length) this.pass[this.activeAt]=true;
-        if(cards && cards.length>0) {
+        if(cards && cards.length > 0) {
           this.submittedCardIds = cards;
           this.lastSubmittedPlayerId = this.activeAt;
           this.players[this.activeAt] = this.players[this.activeAt].filter((each) => !this.submittedCardIds.includes(each));
         }
       }
       if(!this.isEndGame(this.activeAt)) {
-        this.autoPlay(n-1, 500, cards);
+        this.autoPlay(n - 1, 500, cards);
       }
     }, period)
   }
@@ -123,11 +124,10 @@ export class PlayboardComponent {
   clickSubmitHandler(){
     console.log(`isCom: ${this.isCom}`);
     if (this.isCom) {
-      this.pass[this.activeAt] = false;
-      this.zoom = true;
       if (this.turn === 0) this.lastSubmittedPlayerId = this.activeAt = 0;
       this.selectedCardIds.sort((a,b) => a - b);
       this.submittedCardIds = this.selectedCardIds;
+      this.pass[this.activeAt] = false;
       this.lastSubmittedPlayerId = 0;
       this.players[0] = this.players[0].filter((each) => !this.submittedCardIds.includes(each));
       if(!this.isEndGame(this.activeAt)) {
@@ -138,7 +138,6 @@ export class PlayboardComponent {
 
   clickPassHandler(){
     if (this.isCom) {
-      this.zoom = true;
       this.autoPlay(3, 0);
       this.pass[this.activeAt] = true;
     } else {
@@ -148,6 +147,12 @@ export class PlayboardComponent {
         }
       );
     }
+  }
+
+  isZoom(activeAt,pass,submittedCardIds){ 
+    if(this.activeAt === 0) return false;
+    else if(!this.pass[this.activeAt]) return true;
+    else return false;
   }
 
   isEndGame(playerId) {
