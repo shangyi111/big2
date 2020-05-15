@@ -15,9 +15,9 @@ import { Observable } from 'rxjs';
   styleUrls: ['./playboard.component.css']
 })
 export class PlayboardComponent {
+  
+  static TIMEOUT = 500;
 
-
-  title = 'big2';
   players = [[], [], [], []];
   activeAt = 0;
   submittedCardIds=[];
@@ -25,11 +25,7 @@ export class PlayboardComponent {
   lastSubmittedPlayerId;
   turn = 0;
   pass:boolean[]=[false, false, false,false];
-
-  private sub: any;
   isCom: boolean = true;
-
-
 
 
   constructor(private route: ActivatedRoute, private fireDatabase: AngularFireDatabase) {
@@ -37,8 +33,8 @@ export class PlayboardComponent {
   }
 
   ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
-       this.isCom = params.isCom === "true";
+    this.route.params.subscribe(params => {
+       this.isCom = params.isCom === "computer";
     });
   }
 
@@ -50,8 +46,8 @@ export class PlayboardComponent {
     this.turn = 0;
     this.pass=[false, false, false,false];
 
-    gameStart(51,this.players);
-    for(let i=0; i<4; i++){
+    gameStart(51, this.players);
+    for(let i=0; i < 4; i++){
       if(this.players[i].includes(0)){
         this.lastSubmittedPlayerId = this.activeAt = (i + 3) % 4;       
       }
@@ -61,7 +57,7 @@ export class PlayboardComponent {
     console.log(`lastSubmittedPlayerId: ${this.lastSubmittedPlayerId}`);
     if ((this.activeAt + 1) % 4 > 0) {
       // this.zoom = true;
-      this.autoPlay(3 - this.activeAt, 1000);
+      this.autoPlay(3 - this.activeAt, PlayboardComponent.TIMEOUT);
     }
   }
 
@@ -72,39 +68,27 @@ export class PlayboardComponent {
 
   
   
-  autoPlay(n, period, cards=undefined) {
-    if (n < 0) {
-      // this.zoom = false;
-      return;
-    }
+  autoPlay(n, period, cards = undefined) {
+    if (n < 0) return;
     setTimeout(() => {
-      console.log(`autoPlay activeAt: ${this.activeAt}`)
-
       this.activeAt += 1;
       this.activeAt %= 4;
       this.turn += 1;
       this.pass[this.activeAt] = false;
-      console.log(this.activeAt);
-      // activePlayer is cards of activePlayer has
       const activePlayer = this.players[this.activeAt];
       if (activePlayer.length && this.activeAt > 0) {
         if(this.lastSubmittedPlayerId === this.activeAt) this.submittedCardIds = [];
-        cards = computerSubmits(
-          this.players, 
-          this.activeAt, 
-          this.submittedCardIds, 
-          this.turn === 1);
+        cards = computerSubmits(activePlayer, this.submittedCardIds, this.turn === 1);
         if(!cards || !cards.length) {
           this.pass[this.activeAt] = true;
-        }
-        if(cards && cards.length > 0) {
+        } else {
           this.submittedCardIds = cards;
           this.lastSubmittedPlayerId = this.activeAt;
-          this.players[this.activeAt] = this.players[this.activeAt].filter((each) => !this.submittedCardIds.includes(each));
+          this.players[this.activeAt] = activePlayer.filter((item) => !cards.includes(item));
         }
       }
       if(!this.isEndGame(this.activeAt)) {
-        this.autoPlay(n - 1, 500, cards);
+        this.autoPlay(n - 1, PlayboardComponent.TIMEOUT, cards);
       }
     }, period)
   }

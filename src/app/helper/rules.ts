@@ -7,14 +7,13 @@ export const isValid = (array,prev) => {
 
 		if(![1,2,5].includes(array.length)) return false;
 
-    	if([1].includes(array.length)) return true;
+    	if(array.length === 1) return true;
 	    //pair case
-	    if([2].includes(array.length)){
-			if(Math.floor(array[0]/ 4)!== Math.floor(array[1]/4)) return false;
-			if(Math.floor(array[0]/ 4) === Math.floor(array[1]/4)) return true;
+	    if(array.length === 2){
+			return Math.floor(array[0]/ 4) === Math.floor(array[1]/4);
 	    }
 
-	    if([5].includes(array.length)){
+	    if(array.length === 5){
 		    let countMap = {};
 		
 			for (const x of array ) { 
@@ -26,9 +25,8 @@ export const isValid = (array,prev) => {
 			let min = Math.min(...Object.values(countMap) as number[]);
 			
 			if(max === 1) {
-				let variance = Math.floor(array[4]/4)-Math.floor(array[0]/4);
-				if(variance === 4) return true;
-				else return false;
+				let variance = Math.floor(array[4]/4) - Math.floor(array[0]/4);
+				return (variance === 4);
 			} //test if it is a straight
 			if(max === 2) return false;
 			if(max === 3 && min === 2) return true;
@@ -40,8 +38,7 @@ export const isValid = (array,prev) => {
     if(![1,2,5].includes(array.length)) return false;
 
     if(prev.length ===1 && [1].includes(array.length)){
-    	if (array[0]/4 > prev[0]/4) return true;
-		else return false;
+    	return (array[0]/4 > prev[0]/4);
     }
     //pair case
 
@@ -56,21 +53,17 @@ export const isValid = (array,prev) => {
     			if(valueIndex0 === valuePrev){
     				let prevMax = Math.max(prev[0]%4, prev[1]%4)
     				let curMax = Math.max(array[0]%4, array[1]%4)
-    				if(curMax > prevMax) return true;
-    				else return false;
+    				return (curMax > prevMax);
     			}
-    			if(valueIndex0 < valuePrev) return false;
-    			if(valueIndex0 > valuePrev) return true;
+    			return valueIndex0 > valuePrev;
     		}
     	}
     }
 
     if(prev.length === 5){
     	if(isFullHouse(prev) && isFullHouse(array)){
-    		if(getFullHouseMax(array) > getFullHouseMax(prev)) return true;
-    		else return false;
+    		return (getFullHouseMax(array) > getFullHouseMax(prev));
  		}
-
 
  		if(isStraight(prev)){
 			if(isStraight(array)){
@@ -79,23 +72,18 @@ export const isValid = (array,prev) => {
 	 			curMax = array[0];
 	 			if(curMax >= prevMax) return true;
 	 		}
-	 		if(isFullHouse(array) || isKingKong(array)) return true;
-	 		else return false;
+	 		return (isFullHouse(array) || isKingKong(array));
  		}
 
  		if(isFullHouse(prev)){
  			if(isFullHouse(array)){
- 				if(getFullHouseMax(array) > getFullHouseMax(prev)) return true;
+ 				return getFullHouseMax(array) > getFullHouseMax(prev);
  			}
- 			if(isKingKong(array)) return true;
- 			else return false;
+ 			return isKingKong(array);
  		}
 
- 		if(isKingKong(prev)){
- 			if(isKingKong(array)){
- 				if(getKingKongMax(array)>getKingKongMax(prev)) return true;
- 			}
- 			else return false;
+ 		if(isKingKong(prev) && isKingKong(array)){
+ 			return (getKingKongMax(array)>getKingKongMax(prev));
  		}
 
     }
@@ -132,7 +120,7 @@ const getFullHouseMax = (array) => {
 	if(Math.floor(array[0]/4) === Math.floor(array[1]/4) && Math.floor(array[1]/4) === Math.floor(array[2]/4)){
 		return Math.floor(array[0]/4);
 	}
-		else return Math.floor(array[4]/4);
+	else return Math.floor(array[4]/4);
 }
 
 const isFullHouse=(array)=>{ //five elements in this array
