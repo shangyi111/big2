@@ -18,8 +18,11 @@ describe('PlayboardComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
+ 
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+
+  // fit("checkPassArray", () => {
+  //   expect(component.checkPassArray([false, false, false, true])).toEqual(-3);
+  // });
+
 });

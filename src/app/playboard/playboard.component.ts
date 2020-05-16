@@ -38,6 +38,14 @@ export class PlayboardComponent {
     });
   }
 
+  // checkPasses(passArray){
+  //   let sum = 0;
+  //   for (let i = 0 ; i < passArray.length; i ++){
+  //     if(passArray[i] ===false) sum -=1;
+  //   }
+  //  return sum;
+  // }
+
   reset(){
     this.players = [[], [], [], []];
     this.activeAt = 0;
@@ -95,9 +103,11 @@ export class PlayboardComponent {
   
 
   getPlayerSelectedCards(selectedCardIds) {
-    this.selectedCardIds = selectedCardIds;
-    if(this.lastSubmittedPlayerId === 0){
-      this.submittedCardIds = [];
+    if(selectedCardIds.length){
+      this.selectedCardIds = selectedCardIds;
+      if(this.lastSubmittedPlayerId === 0){
+        this.submittedCardIds = [];
+      }
     }
   }
 

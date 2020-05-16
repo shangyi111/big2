@@ -64,7 +64,10 @@ export const isValid = (array,prev) => {
     	if(isFullHouse(prev) && isFullHouse(array)){
     		return (getFullHouseMax(array) > getFullHouseMax(prev));
  		}
-
+ 		if(isStraightFlush(prev)){
+ 			if(!isStraightFlush(array)) return false;
+ 			else return CompareStraightFlush(prev,array);
+ 		}
  		if(isStraight(prev)){
 			if(isStraight(array)){
 	 			let prevMax, curMax;
@@ -72,23 +75,43 @@ export const isValid = (array,prev) => {
 	 			curMax = array[0];
 	 			if(curMax >= prevMax) return true;
 	 		}
-	 		return (isFullHouse(array) || isKingKong(array));
+	 		return (isFullHouse(array) || isKingKong(array) || isStraightFlush(array));
  		}
 
  		if(isFullHouse(prev)){
  			if(isFullHouse(array)){
  				return getFullHouseMax(array) > getFullHouseMax(prev);
  			}
- 			return isKingKong(array);
+ 			return isKingKong(array) || isStraightFlush(array);
  		}
 
- 		if(isKingKong(prev) && isKingKong(array)){
- 			return (getKingKongMax(array)>getKingKongMax(prev));
+ 		if(isKingKong(prev)){
+ 			if(isKingKong(array)){
+				if(getKingKongMax(array)>getKingKongMax(prev)) return true;
+				else return (isStraightFlush(array));
+			}		
  		}
+
 
     }
 
 
+}
+export const countMap = (currentPlayerCards)=>{
+	const counts = {};
+	for (let cardId of currentPlayerCards) {
+		const value = Math.floor(cardId / 4);
+		counts[value] = (counts[value] || 0)+ 1; 
+	}
+	return counts;
+}
+export const valueMap=(currentPlayerCards) =>{
+	const values = {};
+	for (let cardId of currentPlayerCards) {
+		const value = Math.floor(cardId / 4);
+		values[value] ? values[value].push(cardId) : values[value]=[cardId];
+	}
+	return values;
 }
 
 
@@ -137,12 +160,50 @@ const isFullHouse=(array)=>{ //five elements in this array
 	if(max === 3 && min == 2) return true;
 }
 
-const isStraight=(array)=>{
-	array = array.sort((a,b) => a - b);
-	let variance = Math.floor(array[4]/4)-Math.floor(array[0]/4);
-	if(variance === 4) return true;
-	else return false;
+export const isStraight=(array)=>{
+	const counts = countMap(array);
+	let max = Math.max(...Object.values(counts) as number[]);
+
+
+	const values = valueMap(array);
+	
+	let keysArr = Object.keys(values).map(Number);
+	keysArr = keysArr.sort((a,b) => a - b);
+	if(max>1) return false;
+
+	let variance = keysArr[4]-keysArr[0]; 
+	
+	if ( variance === 4) return true;
+
+	if( keysArr.every((i) => [0,1,2,11,12].includes(i))
+	 || keysArr.every((i) => [0,1,2,3,12].includes(i))
+	 || keysArr.every((i) => [0,1,10,11,12].includes(i))  
+	 || keysArr.every((i) => [0,9,10,11,12].includes(i)))return true;
+	
+	else return (max===1 && variance === 4);
 }
 
+export const isFlush = (array) =>{
+	const cur=Math.floor(array[0]%4);
+	for(let i = 1; i <5; i ++){
+		if(Math.floor(array[i]%4) !== cur)  return false;
+	}
+	return true;
+}
+
+export const isStraightFlush = (array)=>{
+	return(isFlush(array) && isStraight(array));
+}
+
+export const CompareStraightFlush=(currentPlayerCards,lastSubmittedCardIds)=>{
+	lastSubmittedCardIds.sort((a,b)=> a - b);
+	let prevMax = lastSubmittedCardIds[4];
+	currentPlayerCards.sort((a,b)=> a - b);
+	if(Math.floor(currentPlayerCards[4]%4) === Math.floor(prevMax%4)){
+		if(currentPlayerCards[4] > prevMax) return true;
+	}
+	if(Math.floor(currentPlayerCards[4]%4) > Math.floor(prevMax%4)) return true;	
+	else return false;
+}
 
 
