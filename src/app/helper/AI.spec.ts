@@ -2,7 +2,7 @@ import { isKingKong, getKingKongMax, playKingKong, reactToPairs,reactToSingle,is
 		 getFullHouseMax,playFullHouse,isStraight,getStraightMax, findStraight,
 		 playStraight, isFlush,findStraightFlush, playStraightFlush } from './AI';
 
-import {Card} from './cards';
+import {Card} from './card';
 
 describe("Test AI methods", () => {
 	it("array is KingKong", () => {
@@ -553,7 +553,7 @@ describe("Test AI methods", () => {
 	});
 
 
-	
+
 
 
 

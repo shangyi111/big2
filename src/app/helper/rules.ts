@@ -66,16 +66,18 @@ export const isValid = (array,prev) => {
  		}
  		if(isStraightFlush(prev)){
  			if(!isStraightFlush(array)) return false;
- 			else return CompareStraightFlush(prev,array);
+ 			else return compareStraightFlush(array,prev);
  		}
  		if(isStraight(prev)){
 			if(isStraight(array)){
 	 			let prevMax, curMax;
-	 			prevMax = prev[0];
-	 			curMax = array[0];
-	 			if(curMax >= prevMax) return true;
+	 			prevMax = getStraightMax(prev);
+	 			curMax = getStraightMax(array);
+	 			if(curMax > prevMax) return true;
 	 		}
-	 		return (isFullHouse(array) || isKingKong(array) || isStraightFlush(array));
+	 		return (isFullHouse(array) 
+	 			|| isKingKong(array) 
+	 			|| isStraightFlush(array));
  		}
 
  		if(isFullHouse(prev)){
@@ -88,8 +90,8 @@ export const isValid = (array,prev) => {
  		if(isKingKong(prev)){
  			if(isKingKong(array)){
 				if(getKingKongMax(array)>getKingKongMax(prev)) return true;
-				else return (isStraightFlush(array));
 			}		
+			else return (isStraightFlush(array));
  		}
 
 
@@ -115,7 +117,7 @@ export const valueMap=(currentPlayerCards) =>{
 }
 
 
-const getKingKongMax=(array) =>{
+export const getKingKongMax=(array) =>{
 	const counts = {};
 	for (let cardId of array) {
 		const value = Math.floor(cardId / 4);
@@ -125,7 +127,7 @@ const getKingKongMax=(array) =>{
 }
 
 
-const isKingKong=(array)=>{
+export const isKingKong=(array)=>{
 	array = array.sort((a,b) => a - b);
 	let countMap = {};
 	for (const x of array ) { 
@@ -138,7 +140,7 @@ const isKingKong=(array)=>{
 	if(max === 4) return true;
 }
 
-const getFullHouseMax = (array) => {
+export const getFullHouseMax = (array) => {
 	array = array.sort((a,b) => a - b);
 	if(Math.floor(array[0]/4) === Math.floor(array[1]/4) && Math.floor(array[1]/4) === Math.floor(array[2]/4)){
 		return Math.floor(array[0]/4);
@@ -146,7 +148,7 @@ const getFullHouseMax = (array) => {
 	else return Math.floor(array[4]/4);
 }
 
-const isFullHouse=(array)=>{ //five elements in this array
+export const isFullHouse=(array)=>{ //five elements in this array
 	array = array.sort((a,b) => a - b);
 	let countMap = {};
 	for (const x of array ) { 
@@ -183,6 +185,10 @@ export const isStraight=(array)=>{
 	else return (max===1 && variance === 4);
 }
 
+export const getStraightMax = (array) => {
+	array = array.sort((a,b) => a - b);
+	return array[4];
+}
 export const isFlush = (array) =>{
 	const cur=Math.floor(array[0]%4);
 	for(let i = 1; i <5; i ++){
@@ -195,7 +201,7 @@ export const isStraightFlush = (array)=>{
 	return(isFlush(array) && isStraight(array));
 }
 
-export const CompareStraightFlush=(currentPlayerCards,lastSubmittedCardIds)=>{
+export const compareStraightFlush = (currentPlayerCards,lastSubmittedCardIds)=>{
 	lastSubmittedCardIds.sort((a,b)=> a - b);
 	let prevMax = lastSubmittedCardIds[4];
 	currentPlayerCards.sort((a,b)=> a - b);
