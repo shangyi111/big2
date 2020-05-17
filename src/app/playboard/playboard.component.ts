@@ -26,6 +26,7 @@ export class PlayboardComponent {
   turn = 0;
   pass:boolean[]=[false, false, false,false];
   isCom: boolean = true;
+  autoPlayPromise: any;
 
 
   constructor(private route: ActivatedRoute, private fireDatabase: AngularFireDatabase) {
@@ -60,12 +61,11 @@ export class PlayboardComponent {
         this.lastSubmittedPlayerId = this.activeAt = (i + 3) % 4;       
       }
     }
-    // this.lastSubmittedPlayerId = this.activeAt = 3;
-    console.log(`activeAt: ${this.activeAt}`);
-    console.log(`lastSubmittedPlayerId: ${this.lastSubmittedPlayerId}`);
     if ((this.activeAt + 1) % 4 > 0) {
       // this.zoom = true;
-      this.autoPlay(3 - this.activeAt, PlayboardComponent.TIMEOUT);
+      this.autoPlayPromise = new Promise((resolve, reject) => {
+        this.autoPlay(3 - this.activeAt, PlayboardComponent.TIMEOUT);
+      });
     }
   }
 
@@ -74,31 +74,44 @@ export class PlayboardComponent {
     return i === this.activeAt;
   }
 
+  localComputerSubmits(a, b, c) {
+    return computerSubmits(a, b, c);
+  }
+
   
   
-  autoPlay(n, period, cards = undefined) {
+  autoPlay(n, period) {
     if (n < 0) return;
-    setTimeout(() => {
-      this.activeAt += 1;
-      this.activeAt %= 4;
-      this.turn += 1;
-      this.pass[this.activeAt] = false;
-      const activePlayer = this.players[this.activeAt];
-      if (activePlayer.length && this.activeAt > 0) {
-        if(this.lastSubmittedPlayerId === this.activeAt) this.submittedCardIds = [];
-        cards = computerSubmits(activePlayer, this.submittedCardIds, this.turn === 1);
-        if(!cards || !cards.length) {
-          this.pass[this.activeAt] = true;
-        } else {
-          this.submittedCardIds = cards;
-          this.lastSubmittedPlayerId = this.activeAt;
-          this.players[this.activeAt] = activePlayer.filter((item) => !cards.includes(item));
+    new Promise((resolve, reject) => {
+      setTimeout(() => {
+        this.activeAt += 1;
+        this.activeAt %= 4;
+        this.turn += 1;
+        this.pass[this.activeAt] = false;
+        const activePlayer = this.players[this.activeAt];
+        if (activePlayer.length && this.activeAt > 0) {
+          if(this.lastSubmittedPlayerId === this.activeAt) this.submittedCardIds = [];
+          // console.log(this.submittedCardIds);
+          // if (this.activeAt === this.lastSubmittedPlayerId && !this.submittedCardIds.length){
+          //   console.log('hi');
+          // }
+          const cards = computerSubmits(activePlayer, this.submittedCardIds, this.turn === 1);
+          if(!cards || !cards.length) {
+            this.pass[this.activeAt] = true;
+          } else {
+            this.submittedCardIds = cards;
+            this.lastSubmittedPlayerId = this.activeAt;
+            this.players[this.activeAt] = activePlayer.filter((item) => !cards.includes(item));
+          }
         }
-      }
+        resolve(n);
+      }, period)
+    }).then((t: number)=> {
+      console.log(`activeAt: ${this.activeAt}, lastSubmittedPlayerId: ${this.lastSubmittedPlayerId}, pass: ${this.pass[this.activeAt]}, t: ${t}`);
       if(!this.isEndGame(this.activeAt)) {
-        this.autoPlay(n - 1, PlayboardComponent.TIMEOUT, cards);
+        this.autoPlay(t - 1, PlayboardComponent.TIMEOUT);
       }
-    }, period)
+    });
   }
   
 
@@ -116,7 +129,6 @@ export class PlayboardComponent {
   }
 
   clickSubmitHandler(){
-    console.log(`isCom: ${this.isCom}`);
     if (this.isCom) {
       if (this.turn === 0) this.lastSubmittedPlayerId = this.activeAt = 0;
       this.selectedCardIds.sort((a,b) => a - b);
@@ -124,16 +136,24 @@ export class PlayboardComponent {
       this.pass[this.activeAt] = false;
       this.lastSubmittedPlayerId = 0;
       this.players[0] = this.players[0].filter((each) => !this.submittedCardIds.includes(each));
+      console.log(`player, activeAt: ${this.activeAt}, lastSubmittedPlayerId: ${this.lastSubmittedPlayerId}`);
       if(!this.isEndGame(this.activeAt)) {
-        this.autoPlay(3, 500);
+        this.autoPlayPromise = new Promise((resolve, reject) => {
+          this.autoPlay(3, PlayboardComponent.TIMEOUT);
+        });
       }
     }
   }
 
   clickPassHandler(){
     if (this.isCom) {
-      this.autoPlay(3, 0);
+      
+      // console.log(this.activeAt);
       this.pass[this.activeAt] = true;
+      console.log(`player, activeAt: ${this.activeAt}, lastSubmittedPlayerId: ${this.lastSubmittedPlayerId}`);
+      this.autoPlayPromise = new Promise((resolve, reject) => {
+        this.autoPlay(3, PlayboardComponent.TIMEOUT);
+      });
     } else {
       this.fireDatabase.list('/items').valueChanges().subscribe(
         data => {
@@ -150,7 +170,6 @@ export class PlayboardComponent {
   }
 
   isEndGame(playerId) {
-    console.log(`playerId: ${playerId}`);
     return this.players[playerId].length === 0;
   }
 }

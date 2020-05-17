@@ -75,11 +75,13 @@ export const getKingKongMax=(array) =>{
 export const playKingKong=(currentPlayerCards,lastSubmittedCardIds,isFirstTurn=false)=>{
 	const values = valueMap(currentPlayerCards);
 	const cardsToSubmit = [];
-	let lastSubmittedCardValue = null;
+	let lastSubmittedCardValue = -1;
+
+	if(currentPlayerCards.length < 5) return undefined;
 
 	if(isKingKong(lastSubmittedCardIds)){
 		lastSubmittedCardValue = getKingKongMax(lastSubmittedCardIds);
-	} else lastSubmittedCardValue = null;
+	} else lastSubmittedCardValue = -1;
 
 	const valuesArr = Object.values(values) as number[][];
 
@@ -88,12 +90,10 @@ export const playKingKong=(currentPlayerCards,lastSubmittedCardIds,isFirstTurn=f
 			cardsToSubmit.push(...valuesArr[i]);
 			valuesArr.splice(i,1);
 			for (let j =0; j < valuesArr.length; j++){
-				if(valuesArr[j].length ===1){
-					cardsToSubmit.push(...valuesArr[j]);
-					cardsToSubmit.sort((a,b) => a - b);
-					return (!isFirstTurn || cardsToSubmit.includes(0)) ? cardsToSubmit : undefined;
-				}
-			}
+				cardsToSubmit.push(valuesArr[j][0]);
+				cardsToSubmit.sort((a,b) => a - b);
+				return (!isFirstTurn || cardsToSubmit.includes(0)) ? cardsToSubmit : undefined;
+			}	
 		}
 	}
 }
@@ -113,13 +113,18 @@ export const reactToPairs=(currentPlayerCards,lastSubmittedCardIds,isFirstTurn=f
 
 export const reactToSingle=(currentPlayerCards,lastSubmittedCardIds)=>{
 	let lastSubmittedCardValue = -1;
+	let cardToSubmit=[];
 	if(lastSubmittedCardIds.length){
+		lastSubmittedCardValue = lastSubmittedCardIds[0];
 		for(let i = 0 ; i <currentPlayerCards.length;i++){
-			if (currentPlayerCards[i] > [lastSubmittedCardValue][0]){
-				return [currentPlayerCards[i]];
+			if (currentPlayerCards[i] > lastSubmittedCardValue){
+				cardToSubmit.push(currentPlayerCards[i]);
+				return cardToSubmit;
 			}	
 		}	
 	}
+	else cardToSubmit.push(currentPlayerCards[0]);
+	return cardToSubmit;
 }
 
 export const isFullHouse=(array)=>{ //five elements in this array
@@ -181,7 +186,6 @@ export const isFlush = (array) =>{
 
 
 export const isStraight=(array)=>{
-	console.log(array);
 
 	const counts = countMap(array);
 	let max = Math.max(...Object.values(counts) as number[]);
@@ -190,7 +194,6 @@ export const isStraight=(array)=>{
 	let keysArr = Object.keys(values).map(Number);
 
 	keysArr = keysArr.sort((a,b) => a - b);
-	console.log(keysArr);
 	
 	if(max>1) return false;
 
@@ -282,7 +285,9 @@ export const playStraight=(currentPlayerCards, lastSubmittedCardIds,isFirstTurn=
 	if(!allStraightsArray.length) return undefined;
 
 	for(let i = 0; i <allStraightsArray.length; i ++ ){
-		if(allStraightsArray[i][4] > lastSubmittedCardValue) return allStraightsArray[i];
+		if(allStraightsArray[i][4] > lastSubmittedCardValue){
+			return (!isFirstTurn || allStraightsArray[i].includes(0)) ? allStraightsArray[i] : undefined;
+		}
 	}
 		
 }

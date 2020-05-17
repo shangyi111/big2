@@ -14,25 +14,10 @@ export const isValid = (array,prev) => {
 	    }
 
 	    if(array.length === 5){
-		    let countMap = {};
-		
-			for (const x of array ) { 
-				const value = Math.floor(x/4);
-				countMap[value] = (countMap[value] || 0)+1; 
-			}
-
-			let max = Math.max(...Object.values(countMap) as number[]);
-			let min = Math.min(...Object.values(countMap) as number[]);
-			
-			if(max === 1) {
-				let variance = Math.floor(array[4]/4) - Math.floor(array[0]/4);
-				return (variance === 4);
-			} //test if it is a straight
-			if(max === 2) return false;
-			if(max === 3 && min === 2) return true;
-			if(max === 4) return true;
+			if(isStraight(array)) return true;
+			if(isFullHouse(array)) return true;
+			if(isKingKong(array)) return true;
 	    }
-	    else return true;
 	}
 	//invalidate when number of cards is not valid
     if(![1,2,5].includes(array.length)) return false;

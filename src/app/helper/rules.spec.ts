@@ -526,7 +526,7 @@ describe("Test AI methods", () => {
 		expect(result).toBeFalsy();
 	});
 
-	fit ("beat Fullhouse with KingKong", () => {
+	it ("beat Fullhouse with KingKong", () => {
 		const card1 = new Card(10, 1);
 		const card2 = new Card(10, 2);
 		const card3 = new Card(1, 2);
@@ -543,7 +543,7 @@ describe("Test AI methods", () => {
 		expect(result).toBeTruthy();
 	});
 
-	fit ("fail Fullhouse with Straight", () => {
+	it ("fail Fullhouse with Straight", () => {
 		const card1 = new Card(10, 1);
 		const card2 = new Card(10, 2);
 		const card3 = new Card(1, 2);
@@ -559,6 +559,27 @@ describe("Test AI methods", () => {
 		const result = isValid([pcard1.id, pcard2.id, pcard3.id, pcard4.id, pcard5.id],[card1.id, card2.id, card3.id, card4.id, card5.id]);
 		expect(result).toBeFalsy();
 	});
+
+	it ("none selected yet", () => {
+		const card1 = new Card(10, 1);
+
+		const result = isValid([],[card1.id]);
+		expect(result).toBeFalsy();
+	});
+
+	it ("play straight at first round", () => {
+		const card1 = new Card(11, 1);
+		const card2 = new Card(12, 2);
+		const card3 = new Card(0, 3);
+		const card4 = new Card(1, 0);
+		const card5 = new Card(2, 0);
+
+		const result = isValid([card1.id, card2.id, card3.id, card4.id, card5.id],[]);
+		expect(result).toBeTruthy();
+	});
+
+
+
 
 
 

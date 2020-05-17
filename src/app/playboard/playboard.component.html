@@ -29,7 +29,7 @@
       </div>
     <div class="buttons">
       <button *ngIf="isActive(0) && this.isValidStatus()" type="submit" class="submit" (click)="clickSubmitHandler()"> SUBMIT</button>
-      <button *ngIf="isActive(0) && !this.isValidStatus() && this.lastSubmittedPlayerId !== activeAt"type="submit" class="pass" (click)="clickPassHandler()" > PASS </button>
+      <button *ngIf="isActive(0) && !this.isValidStatus() && this.lastSubmittedPlayerId !== 0"type="submit" class="pass" (click)="clickPassHandler()" > PASS </button>
     </div>
   </div>
   <div class="six" >

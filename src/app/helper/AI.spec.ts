@@ -1,6 +1,6 @@
 import { isKingKong, getKingKongMax, playKingKong, reactToPairs,reactToSingle,isFullHouse,
 		 getFullHouseMax,playFullHouse,isStraight,getStraightMax, findStraight,
-		 playStraight, isFlush,findStraightFlush, playStraightFlush } from './AI';
+		 playStraight, isFlush,findStraightFlush, playStraightFlush, computerSubmits } from './AI';
 
 import {Card} from './card';
 
@@ -551,6 +551,80 @@ describe("Test AI methods", () => {
 		console.log(result);
 		expect(result).toBe(undefined);
 	});
+
+	it ("when last submitted cards are empty, play straight ", () => {
+
+		const pcard1 = new Card(4, 0);
+		const pcard2 = new Card(5, 0);
+		const pcard3 = new Card(6, 0);
+		const pcard4 = new Card(7, 0);
+		const pcard5 = new Card(8, 0);
+		const pcard6 = new Card(4, 2);
+
+		const result = computerSubmits([pcard1.id, pcard2.id, pcard3.id, pcard4.id, pcard5.id, pcard6.id],[]);
+		console.log(result);
+		expect(result).toEqual([pcard1.id, pcard2.id, pcard3.id, pcard4.id, pcard5.id]);
+	});
+
+	it ("when last submitted cards are empty, play FullHouse ", () => {
+
+		const pcard1 = new Card(4, 0);
+		const pcard2 = new Card(5, 0);
+		const pcard3 = new Card(5, 1);
+		const pcard4 = new Card(5, 2);
+		const pcard5 = new Card(8, 0);
+		const pcard6 = new Card(4, 2);
+
+		const result = computerSubmits([pcard1.id, pcard2.id, pcard3.id, pcard4.id, pcard5.id, pcard6.id],[]);
+		console.log(result);
+		expect(result).toEqual([pcard1.id, pcard6.id,pcard2.id, pcard3.id, pcard4.id]);
+	});
+
+	it ("when last submitted cards are empty, play Kingkong ", () => {
+
+		const pcard1 = new Card(4, 0);
+		const pcard2 = new Card(5, 0);
+		const pcard3 = new Card(5, 1);
+		const pcard4 = new Card(5, 2);
+		const pcard5 = new Card(5, 3);
+		const pcard6 = new Card(4, 2);
+
+		const result = computerSubmits([pcard1.id, pcard2.id, pcard3.id, pcard4.id, pcard5.id, pcard6.id],[]);
+		console.log(result);
+		expect(result).toEqual([pcard1.id, pcard2.id, pcard3.id, pcard4.id, pcard5.id]);
+	});
+
+	it ("when last submitted cards are empty, play pairs ", () => {
+
+		const pcard1 = new Card(4, 0);
+		const pcard2 = new Card(5, 0);
+		const pcard3 = new Card(6, 1);
+		const pcard4 = new Card(7, 2);
+		const pcard5 = new Card(5, 3);
+		const pcard6 = new Card(4, 2);
+
+		const result = computerSubmits([pcard1.id, pcard2.id, pcard3.id, pcard4.id, pcard5.id, pcard6.id],[]);
+		console.log(result);
+		expect(result).toEqual([pcard1.id, pcard6.id]);
+	});
+
+	it ("when last submitted cards are empty, play single ", () => {
+
+		const pcard1 = new Card(4, 0);
+		const pcard2 = new Card(5, 0);
+		const pcard3 = new Card(6, 1);
+		const pcard4 = new Card(7, 2);
+		const pcard5 = new Card(10, 3);
+		const pcard6 = new Card(12, 2);
+
+		const result = computerSubmits([pcard1.id, pcard2.id, pcard3.id, pcard4.id, pcard5.id, pcard6.id],[]);
+		console.log(result);
+		expect(result).toEqual([pcard1.id]);
+	});
+
+
+
+
 
 
 
