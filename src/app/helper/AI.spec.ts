@@ -622,6 +622,19 @@ describe("Test AI methods", () => {
 		expect(result).toEqual([pcard1.id]);
 	});
 
+	it ("when last submitted cards are empty, play single ", () => {
+
+		const pcard1 = new Card(4, 0);
+		const pcard2 = new Card(5, 0);
+		const pcard3 = new Card(6, 1);
+		const pcard4 = new Card(7, 2);
+		const pcard5 = new Card(10, 3);
+		const pcard6 = new Card(12, 2);
+
+		const result = computerSubmits([pcard1.id, pcard2.id, pcard3.id, pcard4.id, pcard5.id, pcard6.id],[],false);
+		console.log(result);
+		expect(result).toEqual([pcard1.id]);
+	});
 
 
 

@@ -111,9 +111,15 @@ export const reactToPairs=(currentPlayerCards,lastSubmittedCardIds,isFirstTurn=f
 }
 
 
-export const reactToSingle=(currentPlayerCards,lastSubmittedCardIds)=>{
+export const reactToSingle=(currentPlayerCards,lastSubmittedCardIds, isFirstTurn=false)=>{
+	
 	let lastSubmittedCardValue = -1;
 	let cardToSubmit=[];
+	if(isFirstTurn) {
+		cardToSubmit.push(0);
+		return cardToSubmit;
+	}
+
 	if(lastSubmittedCardIds.length){
 		lastSubmittedCardValue = lastSubmittedCardIds[0];
 		for(let i = 0 ; i <currentPlayerCards.length;i++){

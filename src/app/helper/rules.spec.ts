@@ -1,7 +1,7 @@
 import { isKingKong,getKingKongMax,isFullHouse,
 		 getFullHouseMax,isStraight,isFlush, 
 		 isStraightFlush, compareStraightFlush, 
-		 isValid,getStraightMax} from './rules';
+		 isValid,getStraightMax, isPairs, getPairMax} from './rules';
 
 import {Card} from './card';
 
@@ -577,6 +577,44 @@ describe("Test AI methods", () => {
 		const result = isValid([card1.id, card2.id, card3.id, card4.id, card5.id],[]);
 		expect(result).toBeTruthy();
 	});
+
+	it ("is pairs", () => {
+		const card1 = new Card(11, 1);
+		const card2 = new Card(11, 2);
+	
+
+		const result = isPairs([card1.id, card2.id]);
+		expect(result).toBeTruthy();
+	});
+
+	it ("is not pairs", () => {
+		const card1 = new Card(10, 1);
+		const card2 = new Card(11, 2);
+	
+
+		const result = isPairs([card1.id, card2.id]);
+		expect(result).toBeFalsy();
+	});
+
+	it ("get pairs max to be 44", () => {
+		const card1 = new Card(11, 1);
+		const card2 = new Card(11, 2);
+	
+
+		const result = getPairMax([card1.id, card2.id]);
+		expect(result).toEqual(46);
+	});
+
+	it ("get pairs max to be 44", () => {
+		const card1 = new Card(10, 1);
+		const card2 = new Card(10, 2);
+	
+
+		const result = getPairMax([card1.id, card2.id]);
+		expect(result).toEqual(42);
+	});
+
+
 
 
 

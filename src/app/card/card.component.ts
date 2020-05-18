@@ -12,6 +12,7 @@ export class CardComponent  {
 	@Input('isUser') isUser: boolean; 
 	@Input('selected') selected: boolean;   //selected cards
 	@Input('fadeIn') fadeIn: boolean = false;
+	@Input('isSubmitted') isSubmitted: boolean;
 
 	@Output('select') select = new EventEmitter();
 
@@ -24,6 +25,11 @@ export class CardComponent  {
 
 	getSuitIcon() {
 		return CardComponent.SUIT[this.suit];
+	}
+
+	showBackSide(){
+		return (this.isSubmitted || this.isUser);
+
 	}
 
 	getValueIcon(){

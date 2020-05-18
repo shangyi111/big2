@@ -13,10 +13,12 @@ export class CardsComponent {
 	@Input() isActive: boolean;
 	@Input() playerId: number;
 	@Input() fadeIn: boolean = false;
+	@Input() isSubmitted:boolean;
 
 	@Output() playerSelectedCards = new EventEmitter();
 	
 	selecteds: boolean[] = [];
+
 
 
 	getCards(){
@@ -48,6 +50,7 @@ export class CardsComponent {
 		const cardId = (cardData.value) * 4 + cardData.suit;
 		return this.selecteds[cardId];
 	}
+
 
 	generateSelectedCardIds(cardData) {
 		const cardId = (cardData.value) * 4 + cardData.suit;

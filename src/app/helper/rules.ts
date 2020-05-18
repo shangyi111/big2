@@ -10,7 +10,7 @@ export const isValid = (array,prev) => {
     	if(array.length === 1) return true;
 	    //pair case
 	    if(array.length === 2){
-			return Math.floor(array[0]/ 4) === Math.floor(array[1]/4);
+			return isPairs(array);
 	    }
 
 	    if(array.length === 5){
@@ -28,21 +28,10 @@ export const isValid = (array,prev) => {
     //pair case
 
     if(prev.length === 2){
-    	if(![2].includes(array.length)) return false;
-    	if([2].includes(array.length)){
-    		const valueIndex0=Math.floor(array[0]/4);
-    		const valueIndex1=Math.floor(array[1]/4);
-    		const valuePrev  =Math.floor(prev[0]/4);
-    		if(valueIndex1!== valueIndex0) return false;
-    		if(valueIndex0 === valueIndex1){
-    			if(valueIndex0 === valuePrev){
-    				let prevMax = Math.max(prev[0]%4, prev[1]%4)
-    				let curMax = Math.max(array[0]%4, array[1]%4)
-    				return (curMax > prevMax);
-    			}
-    			return valueIndex0 > valuePrev;
-    		}
-    	}
+   		if(isPairs(prev) && isPairs(array)){
+   			return (getPairMax(prev)<getPairMax(array)) 
+   		}
+   		else return false;
     }
 
     if(prev.length === 5){
@@ -101,6 +90,14 @@ export const valueMap=(currentPlayerCards) =>{
 	return values;
 }
 
+export const isPairs=(array)=>{
+	if(array.length !== 2) return false;
+	return (Math.floor(array[0]/4) === Math.floor(array[1]/4));
+}
+
+export const getPairMax=(array)=>{
+	return array[0]>array[1] ? array[0] : array[1];
+}
 
 export const getKingKongMax=(array) =>{
 	const counts = {};

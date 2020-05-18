@@ -20,7 +20,8 @@
   </div>
   <div class="five" >
     <div class="placeholder">
-      <cards [cardIds] = "this.submittedCardIds" [isActive]="true" [fadeIn]="this.isZoom(this.activeAt,this.pass,this.submittedCardIds)" ></cards>
+      <cards [isSubmitted]="true" [cardIds] = "this.submittedCardIds" [isActive]="true" [fadeIn]="this.isZoom(this.activeAt,this.pass,this.submittedCardIds)" >
+      </cards>
     </div>
     <div class="endGame" [hidden]="!this.isEndGame(this.activeAt)">
       <div id="win"> PLAYER {{activeAt}} WINS</div>

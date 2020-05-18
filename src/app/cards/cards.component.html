@@ -1,10 +1,11 @@
-<div class="cards {{this.getPlayerSide()}} {{this.isActive ? 'active' : 'inactive'}}">
+<div class="cards {{this.getPlayerSide()}} {{this.isActive ? 'active' : 'inactive'}} ">
 	<div class="card-container" *ngFor="let card of getCards(); let i = index" > 
 		<card 
 		[value]="card.value" 
 		[suit]="card.suit" 
 		[isUser]="playerId === 0" 
 		[selected]="isSelected(card)" 
+		[isSubmitted]="this.isSubmitted"
 		[fadeIn] = "this.fadeIn"
 		(select)="emitSelectedCardIds($event)"></card>
 	</div>

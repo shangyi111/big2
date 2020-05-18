@@ -20,9 +20,4 @@ describe('PlayboardComponent', () => {
   });
  
 
-
-  // fit("checkPassArray", () => {
-  //   expect(component.checkPassArray([false, false, false, true])).toEqual(-3);
-  // });
-
 });

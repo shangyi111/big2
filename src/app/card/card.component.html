@@ -1,18 +1,21 @@
 <div 
 class="card 
-{{this.isUser? 'playerCardHoverEffect' : ''}} 
-{{this.selected? 'selectedCardCssEffect' : ''}}
-{{this.fadeIn ? 'fade-in' : ''}}" 
+{{this.isUser ?         'playerCardHoverEffect' : ''}} 
+{{this.showBackSide()? '' :'backgroundImage'}}
+{{this.selected ?       'selectedCardCssEffect' : ''}}
+{{this.fadeIn ?         'fade-in' : ''}}" 
 
 style="color:{{this.getColor()}}" 
 (click)="onClick()" > 
-	<div class="top" >
-		<span ><b>{{this.getValueIcon()}}</b></span>
+<div class="{{ this.showBackSide()? '' :'notVisible'}}">
+	<div class="top">
+		<span><b>{{this.getValueIcon()}}</b></span>
 		<span>{{this.getSuitIcon()}}</span>
 	</div>
-	<h1>{{this.getSuitIcon()}}</h1>
-	<div class="bottom">
+	<h1 >{{this.getSuitIcon()}}</h1>
+	<div class="bottom" >
 		<span>{{this.getSuitIcon()}}</span>
 		<span><b>{{this.getValueIcon()}}</b></span>
 	</div>
+</div>
 </div>
