@@ -4,8 +4,8 @@
   <div class="two" >
   	<cards [cardIds]="this.players[2]" [playerId]="2" [isActive]="isActive(2)"> 
     </cards>
-    <div *ngIf="this.pass[2]" class="popup popupPositionUp" >
-      <span class="popuptext" id="myPopup">PASS</span>
+    <div *ngIf="this.pass[2]" class=" popupPositionUp " >
+      <span class="popup {{this.pass[2] && isActive(2)? 'popupAnimation' : ''}}" >PASS</span>
     </div>
     <nametag [playerId]="2"></nametag>
   </div>
@@ -13,14 +13,14 @@
   <div class="four">
   	<cards [cardIds]="this.players[1]" [playerId]="1" [isActive]="isActive(1)"> 
     </cards>
-    <div *ngIf="this.pass[1]" class="popup popupPositionLeft"  >
-      <span class="popuptext" id="myPopup">PASS</span>
+    <div *ngIf="this.pass[1]" class=" popupPositionLeft"  >
+      <span class="popup {{this.pass[1] && isActive(1) ? 'popupAnimation' : ''}}" >PASS</span>
     </div>
     <nametag [playerId]="1"></nametag>
   </div>
   <div class="five" >
     <div class="placeholder">
-      <cards [isSubmitted]="true" [cardIds] = "this.submittedCardIds" [isActive]="true" [fadeIn]="this.isZoom(this.activeAt,this.pass,this.submittedCardIds)" >
+      <cards  [cardIds]="submittedCardIds" [isActive]="true" [zoomIn]="this.isZoom(this.activeAt,this.pass)" [isSubmitted]="true">
       </cards>
     </div>
     <div class="endGame" [hidden]="!this.isEndGame(this.activeAt)">
@@ -29,15 +29,15 @@
         <button class="home" [routerLink]="['']">HOME</button>
       </div>
     <div class="buttons">
-      <button *ngIf="isActive(0) && this.isValidStatus()" type="submit" class="submit" (click)="clickSubmitHandler()"> SUBMIT</button>
-      <button *ngIf="isActive(0) && !this.isValidStatus() && this.lastSubmittedPlayerId !== 0"type="submit" class="pass" (click)="clickPassHandler()" > PASS </button>
+      <button *ngIf="isActive(0) && this.isValidStatus() && this.timeLeft > 0" type="submit" class="submit" (click)="clickSubmitHandler()"> SUBMIT</button>
+      <button *ngIf="isActive(0) && !this.isValidStatus() && this.lastSubmittedPlayerId !== 0  && this.timeLeft > 0"type="submit" class="pass" (click)="clickPassHandler()" > PASS </button>
     </div>
   </div>
   <div class="six" >
   	<cards [cardIds]="this.players[3]" [playerId]="3" [isActive]="isActive(3)"> 
     </cards>
-    <div *ngIf="this.pass[3]" class="popup popupPositionRight" >
-      <span class="popuptext" id="myPopup">PASS</span>
+    <div *ngIf="this.pass[3]" class=" popupPositionRight " >
+      <span class="popup {{this.pass[3] && isActive(3) ? 'popupAnimation' : ''}}" >PASS</span>
     </div>
     <nametag [playerId]="3"></nametag>
   </div>
@@ -45,9 +45,10 @@
   <div class="eight" > 
     <cards [cardIds]="this.players[0]" [playerId]="0" (playerSelectedCards)="getPlayerSelectedCards($event)" [isActive]="isActive(0)">
     </cards>
-    <div class="popup popupPositionDown" [hidden]="!this.pass[0]" >
-      <span class="popuptext" id="myPopup">PASS</span>
+    <div class="popupPositionDown" [hidden]="!this.pass[0]" >
+      <span class="popup popupAnimation" >PASS</span>
     </div>
+    <alarm *ngIf="isActive(0) && this.timeLeft > 0" [x]="this.timeLeft" [zoomIn]="true"></alarm>
     <nametag [playerId]="0"></nametag>
   </div>
   

@@ -11,7 +11,7 @@ export class CardComponent  {
 	@Input('suit') suit: number;
 	@Input('isUser') isUser: boolean; 
 	@Input('selected') selected: boolean;   //selected cards
-	@Input('fadeIn') fadeIn: boolean = false;
+	@Input('zoomIn') zoomIn: boolean = false;
 	@Input('isSubmitted') isSubmitted: boolean;
 
 	@Output('select') select = new EventEmitter();

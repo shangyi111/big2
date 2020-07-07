@@ -1,11 +1,14 @@
 .container-auto {
- padding: 5%;
-  width: 700px;
-  height: 700px;
-  position: absolute;
-  background-color: green;
-  display: flex;
-  flex-wrap: wrap;
+	padding-top: 2.5%;
+	padding-left: 5%;
+	padding-right:5%;
+	padding-bottom: 5%;
+	width: 700px;
+	height: 700px;
+	position: absolute;
+	background-color: #84b9459e;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 .endGame {
@@ -34,7 +37,11 @@
 	transform: scale(.8)translate(50%)
 }
 
-.popup .popuptext {
+.popupAnimation {
+	animation: zoomin ease .8s;
+}
+
+.popup {
   width: 160px;
   background-color: #555;
   color: #fff;
@@ -44,7 +51,6 @@
   position: absolute;
   z-index: 1;
   margin-left: -80px;
-  animation: zoomin ease .8s;
 }
 
 @keyframes zoomin {

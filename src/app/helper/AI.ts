@@ -73,6 +73,7 @@ export const getKingKongMax=(array) =>{
 }
 
 export const playKingKong=(currentPlayerCards,lastSubmittedCardIds,isFirstTurn=false)=>{
+	console.log(`playFullHouse: ${currentPlayerCards}`);
 	const values = valueMap(currentPlayerCards);
 	const cardsToSubmit = [];
 	let lastSubmittedCardValue = -1;
@@ -158,6 +159,7 @@ export const getFullHouseMax = (array) => {
 }
 
 export const playFullHouse=(currentPlayerCards, lastSubmittedCardIds, isFirstTurn=false)=>{
+	console.log(`playFullHouse: ${currentPlayerCards}`);
 	const values = valueMap(currentPlayerCards);
 	const cardsToSubmit = [];
 	let lastSubmittedCardValue = -1;
@@ -229,9 +231,10 @@ export const findStraight=(cardIds)=>{
 			const len = aStraight.length;
 			const lastStraightValue = Math.floor(aStraight[len - 1]/4);
 			let nextValue = Math.floor(cardIds[(k+j) % cardIds.length]/4);
-			while (lastStraightValue === nextValue) {
+			if(lastStraightValue === nextValue) {
 				k++;
-				nextValue = Math.floor(cardIds[(k+j) % cardIds.length]/4);
+				nextValue = Math.floor(cardIds[	(k+j) % cardIds.length]/4);
+				console.log('loop');
 			}
 			if(lastStraightValue === nextValue - 1 ||
 				(lastStraightValue === 12 && nextValue === 0)) {
@@ -281,7 +284,7 @@ export const playStraightFlush=(currentPlayerCards,lastSubmittedCardIds)=>{
 
 
 export const playStraight=(currentPlayerCards, lastSubmittedCardIds,isFirstTurn=false)=>{
-
+	console.log(`playStraight: ${currentPlayerCards}`);
 	let lastSubmittedCardValue = -1;
 	if(lastSubmittedCardIds.length) {
 		lastSubmittedCardValue=getStraightMax(lastSubmittedCardIds);

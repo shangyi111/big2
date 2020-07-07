@@ -12,7 +12,7 @@ export class CardsComponent {
 	@Input() cardIds: number[] = [];
 	@Input() isActive: boolean;
 	@Input() playerId: number;
-	@Input() fadeIn: boolean = false;
+	@Input() zoomIn: boolean = false;
 	@Input() isSubmitted:boolean;
 
 	@Output() playerSelectedCards = new EventEmitter();

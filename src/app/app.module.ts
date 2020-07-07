@@ -15,6 +15,8 @@ import { environment } from '../environments/environment';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { LoadingComponent } from './loading/loading.component';
+import { AlarmComponent } from './alarm/alarm.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,10 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
     HomeComponent,
     PlayboardComponent,
     ContactChipsComponent,
+    LoadingComponent,
+    AlarmComponent,
   ],
+  
   imports: [
     BrowserModule,
     AppRoutingModule,

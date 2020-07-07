@@ -59,11 +59,11 @@ span { display: block; }
 }
 
 
-.fade-in {
-  animation: fadeIn ease .8s;
+.zoom-in {
+  animation: zoomIn ease .8s;
 }
 
-@keyframes fadeIn {
+@keyframes zoomIn {
 0% {transform: scale(1.2);}
 100% {transform: scale(1);}
 }
