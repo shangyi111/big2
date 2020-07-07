@@ -1,0 +1,17 @@
+.alarm {
+	font-size: 200%;
+    color: #395218;
+    padding: 2.5%;
+    position: relative;
+    left: 0%;
+    font-family: monospace;
+}
+
+.zoomIn{
+	animation: zoomIn ease .5s;
+}
+
+@keyframes zoomIn {
+	0% {transform: scale(1.5);}
+	100% {transform: scale(1);}
+}
